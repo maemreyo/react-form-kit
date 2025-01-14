@@ -11,7 +11,7 @@ component_paths=(
     "input/MultiSelect" "input/InputHelperText" "input/InputLabel" "input/InputGroup"
 
     "layout/FormMessage" "layout/FormStepper" "layout/FormAccordion" "layout/FormGroup" "layout/FormRow"
-    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider" 
+    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider"
 
     "interaction/Tooltip" "interaction/ProgressIndicator" "interaction/ValidationIcon" "interaction/ToggleSwitch"
     "interaction/Pill" "interaction/ScrollArea" "interaction/Popover" "interaction/LoadingSpinner"
@@ -68,12 +68,38 @@ do
         echo "$component_dir/styled.ts already exists and is not empty"
     fi
 
-    # Create types.ts if it doesn't exist or is empty
-    if [ ! -f "$component_dir/types.ts" ] || [ ! -s "$component_dir/types.ts" ]; then
-        echo "export {};" > "$component_dir/types.ts"
+    # Create or update types.ts
+    if [ ! -f "$component_dir/types.ts" ] || [ ! -s "$component_dir/types.ts" ] || grep -q '^export {};$' "$component_dir/types.ts"; then
+        echo "export interface ${component_name}Props {}" > "$component_dir/types.ts"
         echo "Created and populated $component_dir/types.ts"
     else
         echo "$component_dir/types.ts already exists and is not empty"
+    fi
+
+    # Create stories.tsx if it doesn't exist or is empty
+    if [ ! -f "$component_dir/${component_name}.stories.tsx" ] || [ ! -s "$component_dir/${component_name}.stories.tsx" ]; then
+        echo "import React from 'react';" > "$component_dir/${component_name}.stories.tsx"
+        echo "import { Meta, StoryFn } from '@storybook/react';" >> "$component_dir/${component_name}.stories.tsx"
+        echo "import { ${component_name} } from './${component_name}';" >> "$component_dir/${component_name}.stories.tsx"
+        echo "import { ${component_name}Props } from './types';" >> "$component_dir/${component_name}.stories.tsx"
+        echo "" >> "$component_dir/${component_name}.stories.tsx"
+        echo "const meta: Meta = {" >> "$component_dir/${component_name}.stories.tsx"
+        echo "  title: '${component_name}'," >> "$component_dir/${component_name}.stories.tsx"
+        echo "  component: ${component_name}," >> "$component_dir/${component_name}.stories.tsx"
+        echo "  argTypes: {}," >> "$component_dir/${component_name}.stories.tsx"
+        echo "  parameters: {}," >> "$component_dir/${component_name}.stories.tsx"
+        echo "};" >> "$component_dir/${component_name}.stories.tsx"
+        echo "" >> "$component_dir/${component_name}.stories.tsx"
+        echo "export default meta;" >> "$component_dir/${component_name}.stories.tsx"
+        echo "" >> "$component_dir/${component_name}.stories.tsx"
+        echo "const Template: StoryFn<${component_name}Props> = (args) => <${component_name} {...args} />;" >> "$component_dir/${component_name}.stories.tsx"
+        echo "" >> "$component_dir/${component_name}.stories.tsx"
+        echo "export const Default = Template.bind({});" >> "$component_dir/${component_name}.stories.tsx"
+        echo "" >> "$component_dir/${component_name}.stories.tsx"
+        echo "Default.args = {};" >> "$component_dir/${component_name}.stories.tsx"
+        echo "Created and populated $component_dir/${component_name}.stories.tsx"
+    else
+        echo "$component_dir/${component_name}.stories.tsx already exists and is not empty"
     fi
 done
 
