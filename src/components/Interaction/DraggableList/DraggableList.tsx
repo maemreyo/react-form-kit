@@ -46,11 +46,11 @@ export const DraggableList = ({
         draggable
         onDragStart={(e) =>
           handleDragStart(e as unknown as React.DragEvent<HTMLLIElement>, index)
-        } // Ép kiểu ở đây
+        }
         onDragOver={(e) =>
           handleDragOver(e as React.DragEvent<HTMLLIElement>, index)
-        } // Ép kiểu ở đây
-        onDrop={(e) => handleDrop(e as React.DragEvent<HTMLLIElement>, index)} // Ép kiểu ở đây
+        }
+        onDrop={(e) => handleDrop(e as React.DragEvent<HTMLLIElement>, index)}
         onKeyDown={(e) => handleKeyDown(e, index)}
         tabIndex={0}
         role="listitem"
@@ -104,13 +104,13 @@ export const DraggableList = ({
                       e as unknown as React.DragEvent<HTMLLIElement>,
                       index
                     )
-                  } // Ép kiểu ở đây
+                  }
                   onDragOver={(e) =>
                     handleDragOver(e as React.DragEvent<HTMLLIElement>, index)
-                  } // Ép kiểu ở đây
+                  }
                   onDrop={(e) =>
                     handleDrop(e as React.DragEvent<HTMLLIElement>, index)
-                  } // Ép kiểu ở đây
+                  }
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   tabIndex={0}
                   role="listitem"
