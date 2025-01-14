@@ -11,11 +11,11 @@ component_paths=(
     "input/MultiSelect" "input/InputHelperText" "input/InputLabel" "input/InputGroup"
 
     "layout/FormMessage" "layout/FormStepper" "layout/FormAccordion" "layout/FormGroup" "layout/FormRow"
-    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider"
+    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider" 
 
     "interaction/Tooltip" "interaction/ProgressIndicator" "interaction/ValidationIcon" "interaction/ToggleSwitch"
     "interaction/Pill" "interaction/ScrollArea" "interaction/Popover" "interaction/LoadingSpinner"
-    "interaction/ValidationSummary" "interaction/FormActions" "interaction/Badge"
+    "interaction/ValidationSummary" "interaction/FormActions" "interaction/Badge" "interaction/DraggableList"
 )
 
 # Loop through each component path and create folder and files
