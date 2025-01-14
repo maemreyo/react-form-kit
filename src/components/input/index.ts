@@ -9,7 +9,7 @@ export { DatePicker } from './DatePicker';
 export { InputErrorMessage } from './InputErrorMessage';
 export { SelectBase } from './SelectBase';
 export { InputBase } from './InputBase';
-export { Combobox } from './Combobox';
+export { Combobox } from './ComboBox';
 export { ColorPicker } from './ColorPicker';
 export { NumberInput } from './NumberInput';
 export { TextAreaControl } from './TextAreaControl';

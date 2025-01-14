@@ -1,2 +1,2 @@
-export { Combobox } from './Combobox';
+export { ComboBox } from './ComboBox';
 export * from './types';

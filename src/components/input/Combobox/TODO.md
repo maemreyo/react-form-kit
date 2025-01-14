@@ -135,6 +135,10 @@ The `ComboBox` component is a versatile and highly customizable dropdown input t
 
 ---
 
-## Conclusion
-
-The `ComboBox` component is a powerful and flexible tool for enhancing input fields with real-time suggestions. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible input fields with ease.
+tôi cần làm design spec cho 1 component (tôi chưa biết tên là gì), nhưng nó có các phần:
+1. combo box 
+2. list có thể drag được ở bên dưới
+Các tính năng:
+1. toàn bộ tính năng của combobox
+2. khi chọn 1 item, thì sẽ thêm vào list bên dưới và thêm 1 `pill` vào ô input (có thể render lên trên input, không nhất thiết phải update value của ô search)
+3. list bên dưới drag thay đổi vị trí thì vị trí của pill cũng phải thay đổi theo.
