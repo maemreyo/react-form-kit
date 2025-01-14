@@ -1,4 +1,4 @@
-export * from './components/FormBuilder/FormContainer';
+export * from './components/layout/FormContainer';
 export * from './components/GridFormContainer';
 export * from './components/Input';
 export * from './components/Label';

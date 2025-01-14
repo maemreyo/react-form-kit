@@ -1,67 +1,89 @@
 #!/bin/bash
 
-# List of component names
-components=(
-    "InputBase" "InputLabel" "InputControl" "InputIcon" "InputHelperText"
-    "InputErrorMessage" "InputGroup" "TextAreaControl" "NumberInput" "DatePicker"
-    "TimePicker" "FileUpload" "ColorPicker" "SelectBase" "MultiSelect" "Combobox"
-    "AutoComplete" "CheckboxGroup" "RadioGroup" "ToggleSwitch" "ScrollArea"
-    "Badge" "Pill" "Tooltip" "Popover" "ValidationSummary" "ConfirmDialog"
-    "FormActions" "ProgressIndicator" "LoadingSpinner" "ValidationIcon"
-    "FormGroup" "FormRow" "FormDivider" "FormMessage" "FormSection"
-    "FormGrid" "FormStepper" "FormAccordion" "FormTabs" "FieldArray"
-    "DynamicField" "DraggableList"
+# Define the base directory for components
+base_dir="src/components"
+
+# List of component paths
+component_paths=(
+    "input/RadioGroup" "input/FileUpload" "input/TimePicker" "input/AutoComplete" "input/CheckboxGroup"
+    "input/InputControl" "input/InputIcon" "input/DatePicker" "input/InputErrorMessage" "input/SelectBase"
+    "input/InputBase" "input/Combobox" "input/ColorPicker" "input/NumberInput" "input/TextAreaControl"
+    "input/MultiSelect" "input/InputHelperText" "input/InputLabel" "input/InputGroup"
+
+    "layout/FormMessage" "layout/FormStepper" "layout/FormAccordion" "layout/FormGroup" "layout/FormRow"
+    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider"
+
+    "interaction/Tooltip" "interaction/ProgressIndicator" "interaction/ValidationIcon" "interaction/ToggleSwitch"
+    "interaction/Pill" "interaction/ScrollArea" "interaction/Popover" "interaction/LoadingSpinner"
+    "interaction/ValidationSummary" "interaction/FormActions" "interaction/Badge"
 )
 
-# Loop through each component and create folder and files
-for component in "${components[@]}"
+# Loop through each component path and create folder and files
+for component_path in "${component_paths[@]}"
 do
-    # Create component directory
-    mkdir -p "$component"
-    echo "Created directory $component"
+    # Define the full component directory
+    component_dir="$base_dir/$component_path"
 
-    # Create index.ts if it doesn't exist
-    if [ ! -f "$component/index.ts" ]; then
-        echo "export { ${component} } from './${component}';" > "$component/index.ts"
-        echo "export * from './types';" >> "$component/index.ts"
-        echo "Created and populated $component/index.ts"
+    # Extract the component name from the path (e.g., "input/RadioGroup" -> "RadioGroup")
+    component_name=$(basename "$component_path")
+
+    # Create component directory if it doesn't exist
+    mkdir -p "$component_dir"
+    echo "Created directory $component_dir"
+
+    # Create index.ts if it doesn't exist or is empty
+    if [ ! -f "$component_dir/index.ts" ] || [ ! -s "$component_dir/index.ts" ]; then
+        echo "export { ${component_name} } from './${component_name}';" > "$component_dir/index.ts"
+        echo "export * from './types';" >> "$component_dir/index.ts"
+        echo "Created and populated $component_dir/index.ts"
     else
-        echo "$component/index.ts already exists"
+        echo "$component_dir/index.ts already exists and is not empty"
     fi
 
-    # Create <component_name>.tsx if it doesn't exist
-    if [ ! -f "$component/${component}.tsx" ]; then
-        echo "import React from 'react';" > "$component/${component}.tsx"
-        echo "" >> "$component/${component}.tsx"
-        echo "export const ${component} = () => {" >> "$component/${component}.tsx"
-        echo "  return <div>${component}</div>;" >> "$component/${component}.tsx"
-        echo "};" >> "$component/${component}.tsx"
-        echo "Created and populated $component/${component}.tsx"
+    # Create <component_name>.tsx if it doesn't exist or is empty
+    if [ ! -f "$component_dir/${component_name}.tsx" ] || [ ! -s "$component_dir/${component_name}.tsx" ]; then
+        echo "import React from 'react';" > "$component_dir/${component_name}.tsx"
+        echo "" >> "$component_dir/${component_name}.tsx"
+        echo "export const ${component_name} = () => {" >> "$component_dir/${component_name}.tsx"
+        echo "  return <div>${component_name}</div>;" >> "$component_dir/${component_name}.tsx"
+        echo "};" >> "$component_dir/${component_name}.tsx"
+        echo "Created and populated $component_dir/${component_name}.tsx"
     else
-        echo "$component/${component}.tsx already exists"
+        echo "$component_dir/${component_name}.tsx already exists and is not empty"
     fi
 
     # Create TODO.md if it doesn't exist
-    if [ ! -f "$component/TODO.md" ]; then
-        touch "$component/TODO.md"
-        echo "Created $component/TODO.md"
+    if [ ! -f "$component_dir/TODO.md" ]; then
+        touch "$component_dir/TODO.md"
+        echo "Created $component_dir/TODO.md"
     else
-        echo "$component/TODO.md already exists"
+        echo "$component_dir/TODO.md already exists"
     fi
 
-    # Create styled.ts if it doesn't exist
-    if [ ! -f "$component/styled.ts" ]; then
-        touch "$component/styled.ts"
-        echo "Created $component/styled.ts"
+    # Create styled.ts if it doesn't exist or is empty
+    if [ ! -f "$component_dir/styled.ts" ] || [ ! -s "$component_dir/styled.ts" ]; then
+        touch "$component_dir/styled.ts"
+        echo "Created $component_dir/styled.ts"
     else
-        echo "$component/styled.ts already exists"
+        echo "$component_dir/styled.ts already exists and is not empty"
     fi
 
-    # Create types.ts if it doesn't exist
-    if [ ! -f "$component/types.ts" ]; then
-        echo "export {}" > "$component/types.ts"
-        echo "Created and populated $component/types.ts"
+    # Create types.ts if it doesn't exist or is empty
+    if [ ! -f "$component_dir/types.ts" ] || [ ! -s "$component_dir/types.ts" ]; then
+        echo "export {};" > "$component_dir/types.ts"
+        echo "Created and populated $component_dir/types.ts"
     else
-        echo "$component/types.ts already exists"
+        echo "$component_dir/types.ts already exists and is not empty"
     fi
 done
+
+# Function to delete empty directories
+delete_empty_directories() {
+    local dir="$1"
+    # Find and delete empty directories
+    find "$dir" -type d -empty -delete
+    echo "Deleted empty directories in $dir"
+}
+
+# Delete empty directories in the base directory
+delete_empty_directories "$base_dir"
