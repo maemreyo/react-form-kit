@@ -1,2 +1,2 @@
-export { default } from './InputBase';
+export { InputBase } from './InputBase';
 export * from './types';

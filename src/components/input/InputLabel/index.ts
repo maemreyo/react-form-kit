@@ -1,2 +1,2 @@
-export { default } from './InputLabel';
+export { InputLabel } from './InputLabel';
 export * from './types';

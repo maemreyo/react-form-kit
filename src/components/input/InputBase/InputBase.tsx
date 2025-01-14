@@ -18,7 +18,7 @@ import { ThemeProvider } from 'styled-components';
 import { Loader, X } from 'lucide-react';
 import theme from '../../../theme';
 
-const InputBase: React.FC<InputBaseProps> = ({
+export const InputBase: React.FC<InputBaseProps> = ({
   value: propValue,
   defaultValue,
   onChange,
@@ -233,5 +233,3 @@ const InputBase: React.FC<InputBaseProps> = ({
     </ThemeProvider>
   );
 };
-
-export default InputBase;

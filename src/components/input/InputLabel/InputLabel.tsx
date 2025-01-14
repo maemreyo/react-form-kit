@@ -11,7 +11,7 @@ import {
 import { InputLabelProps } from './types';
 import Tooltip from '../../interaction/Tooltip';
 
-const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
+export const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
   (
     {
       htmlFor,
@@ -67,5 +67,3 @@ const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
 );
 
 InputLabel.displayName = 'InputLabel';
-
-export default InputLabel;
