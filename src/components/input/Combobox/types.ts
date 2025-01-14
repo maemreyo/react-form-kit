@@ -1,12 +1,14 @@
 import { CSSProperties, ReactNode } from 'react';
-
 export interface ComboBoxProps {
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  onSelect?: (value: string) => void;
-  options?: string[];
-  matchFn?: (option: string, inputValue: string) => boolean;
+  value?: string[] | { label: string; value: string }[];
+  defaultValue?: string[] | { label: string; value: string }[];
+  onChange?: (value: string[] | { label: string; value: string }[]) => void;
+  onSelect?: (value: string[] | { label: string; value: string }[]) => void;
+  options?: string[] | { label: string; value: string }[];
+  matchFn?: (
+    option: string | { label: string; value: string },
+    inputValue: string
+  ) => boolean;
   debounceTime?: number;
   loading?: boolean;
   error?: string;
@@ -23,4 +25,6 @@ export interface ComboBoxProps {
   role?: string;
   tabIndex?: number;
   testId?: string;
+  placeholder?: string;
+  renderItem?: (item: string | { label: string; value: string }) => ReactNode;
 }

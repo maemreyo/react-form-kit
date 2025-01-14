@@ -1,14 +1,23 @@
-import React, { forwardRef, useState, useCallback, useEffect } from 'react';
+import React, {
+  forwardRef,
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../../theme';
 import {
   StyledComboBox,
+  StyledInputContainer,
   StyledInput,
   StyledList,
   StyledListItem,
   StyledLoadingIndicator,
   StyledErrorMessage,
   StyledClearButton,
+  StyledTag,
+  StyledTagRemoveButton,
 } from './styled';
 import { ComboBoxProps } from './types';
 import { useDebounce } from './hooks';
@@ -17,8 +26,8 @@ import { matchSuggestion } from './utils';
 export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
   (
     {
-      value = '',
-      defaultValue = '',
+      value = [],
+      defaultValue = [],
       onChange,
       onSelect,
       options = [],
@@ -39,50 +48,80 @@ export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
       role = 'combobox',
       tabIndex = 0,
       testId = null,
+      placeholder = 'Select options...',
+      renderItem,
     },
     ref
   ) => {
-    const [inputValue, setInputValue] = useState(value || defaultValue);
+    const [inputValue, setInputValue] = useState('');
+    const [selectedItems, setSelectedItems] = useState<string[]>(
+      value || defaultValue || []
+    );
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOpen, setIsOpen] = useState(false);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
 
     const debouncedInputValue = useDebounce(inputValue, debounceTime);
 
     const handleInputChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
+      (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputValue(e.target.value);
-        onChange?.(e.target.value);
       },
-      [onChange]
+      []
     );
 
     const handleSelect = useCallback(
-      (selectedValue: string) => {
-        setInputValue(selectedValue);
-        onSelect?.(selectedValue);
+      (selectedValue: string | { label: string; value: string }) => {
+        const selectedItemValue =
+          typeof selectedValue === 'string'
+            ? selectedValue
+            : selectedValue.value;
+        if (!selectedItems.includes(selectedItemValue)) {
+          const newSelectedItems = [...selectedItems, selectedItemValue];
+          setSelectedItems(newSelectedItems);
+          onChange?.(newSelectedItems);
+          onSelect?.(newSelectedItems);
+        }
+        setInputValue('');
         setIsOpen(false);
       },
-      [onSelect]
+      [selectedItems, onChange, onSelect]
+    );
+
+    const handleRemoveItem = useCallback(
+      (item: string) => {
+        const newSelectedItems = selectedItems.filter((i) => i !== item);
+        setSelectedItems(newSelectedItems);
+        onChange?.(newSelectedItems);
+      },
+      [selectedItems, onChange]
     );
 
     const handleClear = useCallback(() => {
+      setSelectedItems([]);
+      onChange?.([]);
       setInputValue('');
-      onChange?.('');
       setIsOpen(false);
     }, [onChange]);
 
     useEffect(() => {
-      if (isOpen) {
-        if (inputValue === '') {
-          setFilteredOptions(options);
-        } else {
-          const matchedOptions = matchFn
-            ? options.filter((option) => matchFn(option, inputValue))
-            : matchSuggestion(options, inputValue);
-          setFilteredOptions(matchedOptions);
-        }
+      if (debouncedInputValue) {
+        const matchedOptions = matchFn
+          ? options.filter((option) => matchFn(option, debouncedInputValue))
+          : matchSuggestion(options, debouncedInputValue);
+        setFilteredOptions(matchedOptions);
+      } else {
+        setFilteredOptions(options);
       }
-    }, [inputValue, options, matchFn, isOpen]);
+    }, [debouncedInputValue, options, matchFn]);
+
+    // Tự động điều chỉnh chiều cao của input
+    useEffect(() => {
+      if (inputRef.current) {
+        inputRef.current.style.height = 'auto';
+        inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+      }
+    }, [inputValue, selectedItems]);
 
     return (
       <ThemeProvider theme={theme}>
@@ -99,15 +138,26 @@ export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
           tabIndex={tabIndex}
           data-testid={testId}
         >
-          <StyledInput
-            value={inputValue}
-            onChange={handleInputChange}
-            onFocus={() => setIsOpen(true)}
-            onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-            aria-autocomplete="list"
-            aria-expanded={isOpen}
-          />
-          {showClearButton && inputValue && (
+          <StyledInputContainer>
+            {selectedItems.map((item) => (
+              <StyledTag key={item}>
+                {item}
+                <StyledTagRemoveButton onClick={() => handleRemoveItem(item)}>
+                  &times;
+                </StyledTagRemoveButton>
+              </StyledTag>
+            ))}
+            <StyledInput
+              ref={inputRef}
+              value={inputValue}
+              onChange={handleInputChange}
+              onFocus={() => setIsOpen(true)}
+              onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+              placeholder={selectedItems.length === 0 ? placeholder : ''}
+              rows={1} // Số dòng tối thiểu
+            />
+          </StyledInputContainer>
+          {showClearButton && selectedItems.length > 0 && (
             <StyledClearButton onClick={handleClear} aria-label="Clear input">
               &times;
             </StyledClearButton>
@@ -121,14 +171,24 @@ export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
               ) : filteredOptions.length === 0 ? (
                 <StyledListItem disabled>{noResultsMessage}</StyledListItem>
               ) : (
-                filteredOptions.map((option, index) => (
-                  <StyledListItem
-                    key={index}
-                    onClick={() => handleSelect(option)}
-                  >
-                    {option}
-                  </StyledListItem>
-                ))
+                filteredOptions.map((option, index) => {
+                  const isSelected = selectedItems.includes(
+                    typeof option === 'string' ? option : option.value
+                  );
+                  return (
+                    <StyledListItem
+                      key={index}
+                      onClick={() => !isSelected && handleSelect(option)}
+                      disabled={isSelected}
+                    >
+                      {renderItem
+                        ? renderItem(option)
+                        : typeof option === 'string'
+                          ? option
+                          : option.label}
+                    </StyledListItem>
+                  );
+                })
               )}
             </StyledList>
           )}

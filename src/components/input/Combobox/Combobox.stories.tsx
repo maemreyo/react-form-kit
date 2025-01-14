@@ -94,7 +94,7 @@ WithNoOptions.args = {
 export const WithDefaultValue = Template.bind({});
 WithDefaultValue.args = {
   ...Default.args,
-  defaultValue: 'Banana',
+  defaultValue: ['Banana'],
 };
 
 // ComboBox with required attribute
@@ -137,4 +137,11 @@ export const WithTestId = Template.bind({});
 WithTestId.args = {
   ...Default.args,
   testId: 'combobox-test-id',
+};
+
+export const WithMultipleSelection = Template.bind({});
+WithMultipleSelection.args = {
+  options: ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'],
+  noResultsMessage: 'No fruits found.',
+  value: ['Apple', 'Banana'], // Giá trị mặc định
 };

@@ -60,11 +60,11 @@ The `ComboBox` component is a versatile and highly customizable dropdown input t
 
 | Prop                  | Type                  | Default Value | Description                                                                 |
 |-----------------------|-----------------------|---------------|-----------------------------------------------------------------------------|
-| value                 | string                | ''            | The current value of the input (controlled).                                |
-| defaultValue          | string                | ''            | The default value of the input (uncontrolled).                              |
+| value                 | string[]              | []            | The current value of the input (controlled).                                |
+| defaultValue          | string[]              | []            | The default value of the input (uncontrolled).                              |
 | onChange              | function              | () => {}      | Callback function triggered when the input value changes.                   |
 | onSelect              | function              | () => {}      | Callback function triggered when a suggestion is selected.                  |
-| options               | array<string> or array<object> | []      | List of suggestions to display.                                            |
+| options               | array<string> or array<{ label: string; value: string }> | []      | List of suggestions to display.                                            |
 | matchFn               | function              | null          | Custom matching function for filtering suggestions.                         |
 | debounceTime          | number                | 300           | Debounce time in milliseconds for input changes.                            |
 | loading               | boolean               | false         | Displays a loading indicator during asynchronous data fetching.             |
@@ -73,7 +73,7 @@ The `ComboBox` component is a versatile and highly customizable dropdown input t
 | recentSelections      | array<string>         | []            | List of recently selected items to display at the top of the suggestion list. |
 | showClearButton       | boolean               | true          | Displays a clear button to reset the input value.                           |
 | className             | string                | ''            | Additional CSS class names for styling.                                     |
-| style                 | object                | {}            | Inline styles for the component.                                           |
+| style                 | CSSProperties         | {}            | Inline styles for the component.                                           |
 | ariaLabel             | string                | 'ComboBox'    | ARIA label for accessibility.                                              |
 | ariaDescribedby       | string                | ''            | ARIA attribute to associate with a description.                             |
 | ariaInvalid           | boolean               | false         | ARIA attribute to indicate invalid input.                                   |
@@ -82,6 +82,8 @@ The `ComboBox` component is a versatile and highly customizable dropdown input t
 | role                  | string                | null          | ARIA role attribute.                                                        |
 | tabIndex              | number                | 0             | Tab index for keyboard navigation.                                          |
 | testId                | string                | null          | For testing purposes.                                                     |
+| placeholder           | string                | ''            | Placeholder text for the input field.                                      |
+| renderItem            | function              | null          | Custom render function for suggestion items.                               |
 
 ---
 
@@ -125,6 +127,23 @@ The `ComboBox` component is a versatile and highly customizable dropdown input t
 
 ---
 
+## Future Features (TODO)
+
+### [Enhancements]
+- [ ] Add support for multi-select functionality.
+- [ ] Implement virtual scrolling for large datasets.
+- [ ] Add support for grouping options in the dropdown.
+
+### [Accessibility]
+- [ ] Improve screen reader support with more detailed ARIA attributes.
+- [ ] Add support for voice navigation.
+
+### [Performance]
+- [ ] Optimize rendering performance for very large datasets.
+- [ ] Implement lazy loading for suggestions.
+
+---
+
 ## Considerations
 
 - **State Management**: Manage input value and suggestion state through props.
@@ -135,10 +154,18 @@ The `ComboBox` component is a versatile and highly customizable dropdown input t
 
 ---
 
-tôi cần làm design spec cho 1 component (tôi chưa biết tên là gì), nhưng nó có các phần:
-1. combo box 
-2. list có thể drag được ở bên dưới
-Các tính năng:
-1. toàn bộ tính năng của combobox
-2. khi chọn 1 item, thì sẽ thêm vào list bên dưới và thêm 1 `pill` vào ô input (có thể render lên trên input, không nhất thiết phải update value của ô search)
-3. list bên dưới drag thay đổi vị trí thì vị trí của pill cũng phải thay đổi theo.
+## Conclusion
+
+The `ComboBox` component is a powerful and flexible tool for handling dropdown inputs with search and selection capabilities. By adhering to accessibility standards and optimizing for performance, it ensures a seamless user experience across various devices and use cases. Its customizable nature allows developers to tailor it to their specific needs, making it a valuable addition to any UI library.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Add support for multi-select functionality.
+- [ ] Improve screen reader support with more detailed ARIA attributes.
+
+### Long-term Goals
+- [ ] Implement virtual scrolling for large datasets.
+- [ ] Add support for grouping options in the dropdown.
