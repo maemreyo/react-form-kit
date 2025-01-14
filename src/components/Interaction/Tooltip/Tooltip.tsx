@@ -32,7 +32,7 @@ interface TooltipProps {
   overlayStyle?: CSSProperties;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({
+export const Tooltip: React.FC<TooltipProps> = ({
   title,
   placement = 'top',
   children,
@@ -182,5 +182,3 @@ const Tooltip: React.FC<TooltipProps> = ({
     </ThemeProvider>
   );
 };
-
-export default Tooltip;
