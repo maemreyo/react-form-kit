@@ -13,4 +13,17 @@ export interface InputLabelProps {
   className?: string;
   style?: CSSProperties;
   ref?: React.Ref<HTMLLabelElement>;
+  fontFamily?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  lineHeight?: string;
+  color?: string;
+  disabledColor?: string;
+  requiredColor?: string;
+  optionalColor?: string;
+  marginBottom?: string;
+  marginRight?: string;
+  ariaLabel?: string;
+  ariaDisabled?: boolean;
+  testId?: string;
 }

@@ -1,80 +1,64 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
-import InputLabel from './InputLabel';
+import { StoryFn, Meta } from '@storybook/react';
+import { InputLabel } from './InputLabel';
 import { InputLabelProps } from './types';
 
 export default {
   title: 'Components/InputLabel',
   component: InputLabel,
   argTypes: {
+    htmlFor: { control: 'text' },
+    label: { control: 'text' },
+    required: { control: 'boolean' },
+    optional: { control: 'boolean' },
+    disabled: { control: 'boolean' },
     position: {
-      control: { type: 'radio' },
-      options: ['top', 'left'],
+      control: { type: 'select', options: ['top', 'left'] },
     },
+    tooltip: { control: 'text' },
     tooltipPlacement: {
-      control: { type: 'select' },
-      options: [
-        'top',
-        'top-start',
-        'top-end',
-        'right',
-        'right-start',
-        'right-end',
-        'bottom',
-        'bottom-start',
-        'bottom-end',
-        'left',
-        'left-start',
-        'left-end',
-      ],
+      control: {
+        type: 'select',
+        options: ['top', 'right', 'bottom', 'left'],
+      },
     },
   },
-} as Meta<typeof InputLabel>;
+} as Meta;
 
-const Template: StoryFn<InputLabelProps> = (args) => (
-  <div style={{ padding: '20px' }}>
-    <InputLabel {...args} />
-  </div>
-);
+const Template: StoryFn<InputLabelProps> = (args) => <InputLabel {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  htmlFor: 'input-id',
-  label: 'Input Label',
+  htmlFor: 'input-example',
+  label: 'Username',
 };
 
 export const Required = Template.bind({});
 Required.args = {
-  htmlFor: 'input-id',
-  label: 'Required Input Label',
+  ...Default.args,
   required: true,
 };
 
 export const Optional = Template.bind({});
 Optional.args = {
-  htmlFor: 'input-id',
-  label: 'Optional Input Label',
+  ...Default.args,
   optional: true,
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  htmlFor: 'input-id',
-  label: 'Disabled Input Label',
+  ...Default.args,
   disabled: true,
-};
-
-export const PositionLeft = Template.bind({});
-PositionLeft.args = {
-  htmlFor: 'input-id',
-  label: 'Left Positioned Label',
-  position: 'left',
 };
 
 export const WithTooltip = Template.bind({});
 WithTooltip.args = {
-  htmlFor: 'input-id',
-  label: 'Label with Tooltip',
-  tooltip: 'This is a tooltip message!',
-  tooltipPlacement: 'right',
+  ...Default.args,
+  tooltip: 'This is a helpful tooltip',
+};
+
+export const LeftPosition = Template.bind({});
+LeftPosition.args = {
+  ...Default.args,
+  position: 'left',
 };

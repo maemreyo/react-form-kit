@@ -1,12 +1,12 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../../theme';
 import {
   StyledLabel,
-  StyledIndicator,
   StyledLabelContainer,
   StyledRequired,
   StyledOptional,
+  StyledTooltipWrapper,
 } from './styled';
 import { InputLabelProps } from './types';
 import { Tooltip } from '../../interaction/Tooltip';
@@ -24,16 +24,35 @@ export const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
       tooltipPlacement = 'top',
       className,
       style,
+      fontFamily,
+      fontSize,
+      fontWeight,
+      lineHeight,
+      color,
+      marginBottom,
+      marginRight,
+      ariaLabel,
+      ariaDisabled,
+      testId,
     },
     ref
   ) => {
+    const renderTooltip = useCallback(() => {
+      if (!tooltip) return null;
+
+      return (
+        <StyledTooltipWrapper>
+          <Tooltip title={tooltip} placement={tooltipPlacement}>
+            <span>{label}</span>
+          </Tooltip>
+        </StyledTooltipWrapper>
+      );
+    }, [tooltip, tooltipPlacement, label]);
+
     if (!htmlFor) {
       console.error('InputLabel requires htmlFor prop');
+      return null;
     }
-
-    const RequiredIndicator = <StyledRequired>*</StyledRequired>;
-
-    const OptionalIndicator = <StyledOptional>(optional)</StyledOptional>;
 
     return (
       <ThemeProvider theme={theme}>
@@ -41,24 +60,29 @@ export const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
           className={className}
           style={style}
           $position={position}
+          data-testid={testId}
         >
           <StyledLabel
             htmlFor={htmlFor}
             $disabled={disabled}
             $position={position}
             ref={ref}
-            role={disabled ? undefined : 'label'}
-            {...(disabled ? { 'aria-disabled': true } : {})}
+            role="label"
+            aria-label={ariaLabel}
+            aria-disabled={ariaDisabled || disabled}
+            $fontFamily={fontFamily}
+            $fontSize={fontSize}
+            $fontWeight={fontWeight}
+            $lineHeight={lineHeight}
+            $color={color}
+            $marginBottom={marginBottom}
+            $marginRight={marginRight}
           >
-            {tooltip ? (
-              <Tooltip title={tooltip} placement={tooltipPlacement}>
-                <span>{label}</span>
-              </Tooltip>
-            ) : (
-              label
+            {tooltip ? renderTooltip() : label}
+            {required && <StyledRequired>*</StyledRequired>}
+            {optional && !required && (
+              <StyledOptional>(optional)</StyledOptional>
             )}
-            {required && RequiredIndicator}
-            {optional && !required && OptionalIndicator}
           </StyledLabel>
         </StyledLabelContainer>
       </ThemeProvider>
