@@ -11,7 +11,7 @@ component_paths=(
     "input/MultiSelect" "input/InputHelperText" "input/InputLabel" "input/InputGroup" "input/SortableTagPicker"
 
     "layout/FormMessage" "layout/FormStepper" "layout/FormAccordion" "layout/FormGroup" "layout/FormRow"
-    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider"
+    "layout/FormGrid" "layout/FormSection" "layout/FormTabs" "layout/FormDivider" "layout/ListBase"
 
     "interaction/Tooltip" "interaction/ProgressIndicator" "interaction/ValidationIcon" "interaction/ToggleSwitch"
     "interaction/Pill" "interaction/ScrollArea" "interaction/Popover" "interaction/LoadingSpinner"

@@ -111,16 +111,99 @@ The `InputControl` component is a layout wrapper for input elements, designed to
 
 ---
 
+## Future Features (TODO)
+
+### [Core Functionality]
+- [ ] Add support for multi-line text inputs.
+- [ ] Implement dynamic layout switching based on viewport size.
+- [ ] Add support for custom input masks.
+- [ ] Implement real-time validation feedback.
+
+### [User Experience]
+- [ ] Add touch gestures for mobile.
+- [ ] Implement advanced keyboard shortcuts.
+- [ ] Add context menu support.
+- [ ] Implement input preview.
+- [ ] Add drag scroll zones.
+
+### [Accessibility]
+- [ ] Add voice control support.
+- [ ] Implement live regions.
+- [ ] Add custom announcements.
+- [ ] Improve focus management.
+- [ ] Add high contrast themes.
+
+### [Performance]
+- [ ] Implement virtual scrolling.
+- [ ] Add lazy loading.
+- [ ] Optimize rendering performance.
+- [ ] Add state compression.
+- [ ] Implement worker support.
+
+---
+
 ## Considerations
 
-- **State Management**: Manage input state and validation through props.
-- **Accessibility**: Ensure full compliance with ARIA standards and keyboard navigation.
-- **Performance**: Optimize rendering and event handling for large forms.
-- **Documentation**: Provide clear examples and usage guidelines for developers.
-- **Integration**: Ensure compatibility with popular form libraries and validation frameworks.
+- **State Management**:
+  - Complex state synchronization between input fields.
+  - History management for undo/redo.
+  - Optimistic updates.
+  - State persistence strategies.
+  - Cross-component communication.
+
+- **Accessibility**:
+  - Comprehensive keyboard support.
+  - Screen reader announcements.
+  - Focus management.
+  - ARIA live regions.
+  - Touch target sizes.
+  - High contrast support.
+  - Motion reduction.
+
+- **Performance**:
+  - Render optimization.
+  - State update batching.
+  - Event debouncing.
+  - Memory management.
+  - Large dataset handling.
+  - Animation performance.
+
+- **Browser Compatibility**:
+  - Cross-browser testing.
+  - Mobile device support.
+  - Touch interface.
+  - Fallback behaviors.
+  - Progressive enhancement.
+
+- **Security**:
+  - XSS prevention.
+  - Data sanitization.
+  - CSRF protection.
+  - Input validation.
+  - Safe HTML rendering.
 
 ---
 
 ## Conclusion
 
-The `InputControl` component is a powerful and flexible layout wrapper for input elements. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible input fields with ease.
+The `InputControl` component provides a sophisticated interface for managing input fields, focusing on accessibility, performance, and user experience. Its extensive feature set and customization options make it suitable for a wide range of use cases, from simple forms to complex data management systems. The component's architecture ensures maintainability and extensibility while adhering to modern web development best practices.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement core input functionality.
+- [ ] Add basic keyboard navigation.
+- [ ] Implement ARIA attributes.
+- [ ] Add basic touch support.
+- [ ] Implement error states.
+- [ ] Add basic animations.
+
+### Long-term Goals
+- [ ] Add virtual scrolling.
+- [ ] Implement advanced gestures.
+- [ ] Add voice control.
+- [ ] Support nested structures.
+- [ ] Add collaboration features.
+- [ ] Implement state persistence.
