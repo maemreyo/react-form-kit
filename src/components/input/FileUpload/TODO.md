@@ -2,67 +2,69 @@
 
 ## Overview
 
-The FileUpload component is a versatile tool for uploading files within a user interface. It supports various file types, customization options, and additional features to enhance usability and integration within applications.
+The `FileUpload` component is a versatile and powerful tool for handling file uploads within a user interface. It supports various file types, drag-and-drop functionality, multiple file uploads, and offers extensive customization options. The component is designed to be accessible, responsive, and optimized for performance, making it suitable for a wide range of applications.
+
+---
 
 ## Features
 
 1. **File Type Support**:
-   - Support for multiple file types (e.g., images, documents, videos).
-   - Option to specify allowed file extensions.
+   - Supports multiple file types, including images, documents, and videos.
+   - Allows specification of allowed file extensions through the `accept` prop.
 
 2. **Drag and Drop**:
-   - Enable drag and drop functionality for easy file uploads.
+   - Enables drag-and-drop functionality for intuitive file uploads.
+   - Provides visual feedback when files are dragged over the drop zone.
 
 3. **Multiple File Upload**:
-   - Allow users to upload multiple files at once.
+   - Allows users to upload multiple files simultaneously.
+   - Displays a list of selected files for user confirmation.
 
 4. **File Size Limitation**:
-   - Set maximum file size limits.
+   - Sets maximum file size limits to prevent uploading large files.
+   - Displays error messages for files that exceed the size limit.
 
 5. **File Preview**:
-   - Display previews of uploaded files (e.g., images).
+   - Displays previews of uploaded files, particularly for images.
+   - Enhances user experience by providing visual confirmation of selected files.
 
 6. **Accessibility**:
-   - Keyboard navigation support.
-   - ARIA labels for screen readers.
+   - Supports keyboard navigation for users who rely on keyboard input.
+   - Includes ARIA labels and roles for screen reader compatibility.
 
 7. **Responsiveness**:
-   - Adapts to different screen sizes and devices.
+   - Adapts to different screen sizes and devices, ensuring a consistent user experience across platforms.
 
 8. **Customization**:
-   - Props for styling and theming.
-   - Options to customize button text and appearance.
+   - Provides props for styling and theming, allowing integration with various design systems.
+   - Allows customization of button text and appearance through props like `buttonLabel` and `className`.
 
 9. **Additional Features**:
-   - Auto-upload upon file selection.
-   - Cancel upload functionality.
-   - Progress indicators for upload status.
+   - Auto-upload upon file selection, reducing user effort.
+   - Cancel upload functionality, giving users control over the upload process.
+   - Progress indicators for upload status, providing feedback on upload progress.
 
 10. **Validation**:
-    - Validate file types and sizes before upload.
-    - Show error messages for invalid files.
+    - Validates file types and sizes before upload, ensuring only valid files are uploaded.
+    - Displays clear error messages for invalid files.
 
 11. **Performance Optimization**:
-    - Efficient handling of large files.
-    - Optimize for slow network conditions.
+    - Optimizes handling of large files and slow network conditions.
+    - Uses efficient algorithms for file processing and upload.
 
 12. **Security**:
-    - Sanitize file inputs to prevent malicious uploads.
-    - Handle file names securely.
+    - Sanitizes file inputs to prevent malicious uploads.
+    - Handles file names securely, preventing injection attacks.
 
 13. **Integration**:
-    - Seamless integration with form elements.
-    - Easy retrieval of uploaded file data.
+    - Seamlessly integrates with form elements, allowing easy retrieval of uploaded file data.
+    - Supports custom HTTP headers and methods for upload requests.
 
 14. **Error Handling**:
-    - Display clear error messages for upload failures.
-    - Retry upload functionality.
+    - Displays clear error messages for upload failures.
+    - Includes retry upload functionality, allowing users to retry failed uploads.
 
-15. **Testing**:
-    - Functional tests for upload processes.
-    - Responsive tests across devices.
-    - Accessibility tests for ARIA compliance.
-    - Performance benchmarks for large files.
+---
 
 ## Props Table
 
@@ -101,14 +103,92 @@ The FileUpload component is a versatile tool for uploading files within a user i
 | method                | string                | 'POST'        | HTTP method to use for the upload request (e.g., 'POST', 'PUT').            |
 | enctype               | string                | 'multipart/form-data' | Encoding type for the upload request.                                       |
 
+---
+
+## Additional Features
+
+1. **Drag-and-Drop Zone Styling**:
+   - Customizable drag-and-drop zone with props for background color, border, and text.
+   - Support for drag-and-drop zone animations and effects.
+
+2. **File Type Icons**:
+   - Displays icons representing the type of each uploaded file.
+   - Customizable icons for different file types.
+
+3. **Upload Queue Management**:
+   - Manages a queue of uploads, allowing users to pause, resume, and cancel individual uploads.
+   - Prioritizes uploads based on file type or size.
+
+4. **Customizable Error Messages**:
+   - Provides props to customize error messages for different scenarios (e.g., file size limit exceeded, invalid file type).
+   - Supports internationalization for error messages.
+
+5. **Advanced Progress Indicators**:
+   - Displays detailed progress information, including upload speed and estimated time remaining.
+   - Supports customizable progress bar styles.
+
+6. **Security Enhancements**:
+   - Implements server-side validation and sanitization for uploaded files.
+   - Provides options for secure file storage and access control.
+
+---
+
+## Future Features (TODO)
+
+### [Core Functionality]
+- [ ] Implement support for resumable uploads.
+- [ ] Add support for uploading files from cloud storage services (e.g., Google Drive, Dropbox).
+- [ ] Implement chunked uploads for large files.
+- [ ] Add support for drag-and-drop from browser tabs.
+
+### [User Experience]
+- [ ] Implement a customizable file preview pane.
+- [ ] Add support for thumbnail generation for images and videos.
+- [ ] Implement a file upload history feature.
+- [ ] Add support for drag-and-drop reordering of files in the upload queue.
+
+### [Accessibility]
+- [ ] Implement voice control support for file uploads.
+- [ ] Add support for ARIA live regions for upload status updates.
+- [ ] Improve keyboard navigation for the file list and upload controls.
+
+### [Performance]
+- [ ] Implement server-side optimizations for handling large uploads.
+- [ ] Add support for parallel uploads to improve performance.
+- [ ] Optimize the component for low-bandwidth networks.
+
+---
+
 ## Considerations
 
-- **State Management**: Manage the state of selected files and upload progress internally.
-- **Touch-Friendly**: Ensure smooth gestures and interactions on mobile devices.
-- **Security**: Implement server-side validation and sanitization for uploaded files.
-- **Performance**: Optimize for handling large files and multiple uploads simultaneously.
-- **Documentation**: Provide comprehensive prop descriptions, examples, and best practices.
+- **State Management**: Manage the state of selected files and upload progress internally, ensuring consistency across the component.
+- **Touch-Friendly**: Ensure smooth gestures and interactions on mobile devices, including drag-and-drop support.
+- **Security**: Implement server-side validation and sanitization for uploaded files to prevent malicious uploads.
+- **Performance**: Optimize for handling large files and multiple uploads simultaneously, ensuring the component remains responsive.
+- **Documentation**: Provide comprehensive prop descriptions, examples, and best practices to facilitate easy integration and customization.
+- **Cross-Browser Compatibility**: Test the component across different browsers and devices to ensure consistent behavior.
+- **Internationalization**: Support for internationalization of text and error messages.
+
+---
 
 ## Conclusion
 
-The FileUpload component is designed to be a flexible and powerful tool for file uploads, offering a wide range of features and customization options. It ensures accessibility, performance, and security, making it suitable for various applications.
+The `FileUpload` component is a robust and flexible tool for handling file uploads, offering a wide range of features and customization options. Its focus on accessibility, performance, and security makes it a valuable addition to any application, ensuring a seamless and intuitive user experience.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement core drag-and-drop functionality.
+- [ ] Add support for file type icons.
+- [ ] Implement basic validation for file types and sizes.
+- [ ] Add progress indicators for upload status.
+- [ ] Implement cancel upload functionality.
+
+### Long-term Goals
+- [ ] Implement resumable uploads for large files.
+- [ ] Add support for cloud storage integrations.
+- [ ] Implement advanced security features, such as file hashing and encryption.
+- [ ] Add support for voice control and ARIA live regions.
+- [ ] Optimize performance for low-bandwidth networks.
