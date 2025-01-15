@@ -11,7 +11,7 @@ export { SelectBase } from './SelectBase';
 export { InputBase } from './InputBase';
 export { ComboBox } from './ComboBox';
 export { ColorPicker } from './ColorPicker';
-export { SortableTagPicker } from './SortableTagPicker';
+export * from './SortableTagPicker';
 export { NumberInput } from './NumberInput';
 export { TextAreaControl } from './TextAreaControl';
 export { MultiSelect } from './MultiSelect';
