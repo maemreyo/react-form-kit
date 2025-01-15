@@ -2,7 +2,7 @@
 
 ## Overview
 
-The ToggleSwitch component is a user interface element that allows users to toggle between two states, typically "on" and "off." It is commonly used in settings, forms, and other interactive interfaces to enable or disable features or options. The ToggleSwitch component is highly customizable and supports various features to enhance usability, accessibility, and integration across different applications.
+The ToggleSwitch component is a versatile UI element that allows users to toggle between two states, typically "on" and "off." It is commonly used in settings, forms, and interactive interfaces to enable or disable features or options. This component is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems.
 
 ---
 
@@ -69,16 +69,46 @@ The ToggleSwitch component is a user interface element that allows users to togg
 
 ---
 
+## Additional Features
+
+- **Custom Animations**: Support for defining custom easing functions and animation types.
+- **Theming**: Adaptation to different design themes or dark modes.
+- **Responsive Design**: Ensures the ToggleSwitch looks good on various screen sizes and devices.
+
+---
+
+## Future Features (TODO)
+
+- **Multi-State Support**: Support for more than two states.
+- **Integration with State Management Libraries**: Enhanced integration with libraries like React Hook Form or Formik.
+- **Custom Icons**: Support for custom icons in place of default labels.
+
+---
+
 ## Considerations
 
 - **State Management**: Manage toggle state through props.
 - **Accessibility**: Ensure the toggle switch is accessible to screen readers and keyboard users.
 - **Performance**: Optimize rendering for dynamic state changes.
-- **Documentation**: Provide clear examples and usage guidelines for developers.
+- **Security**: Sanitize dynamic content to prevent XSS attacks.
 - **Integration**: Ensure seamless integration with other components and libraries.
 
 ---
 
 ## Conclusion
 
-The ToggleSwitch component is a versatile and user-friendly tool for enabling or disabling features or options in a user interface. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can enhance the interactivity and usability of their interfaces.
+The ToggleSwitch component is an essential tool for enabling or disabling features in a user interface. Its customizable design, accessibility features, and performance optimizations make it a valuable addition to any design system. By integrating this component, developers can enhance the interactivity and usability of their interfaces.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- Enhance keyboard navigation and focus management.
+- Improve performance optimization through memoization.
+
+### Long-term Goals
+- Introduce multi-state support.
+- Enhance integration with form libraries and state management tools.
+
+This comprehensive design specification ensures that the ToggleSwitch component meets the needs of developers and users alike, providing a robust and flexible solution for toggle functionality in user interfaces.
