@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `InputLabel` component is a reusable and accessible label for input fields. It provides clear and consistent labeling for form inputs, supports optional and required indicators, and includes tooltips for additional context. The component is designed to be highly customizable, responsive, and compliant with accessibility standards.
+The `InputLabel` component is a versatile and accessible label for input fields, designed to enhance user experience through clear and consistent labeling. It supports optional and required indicators, tooltips for additional context, and is fully compliant with accessibility standards.
 
 ---
 
@@ -46,12 +46,12 @@ The `InputLabel` component is a reusable and accessible label for input fields. 
 | Prop                  | Type                  | Default Value | Description                                                                 |
 |-----------------------|-----------------------|---------------|-----------------------------------------------------------------------------|
 | htmlFor               | string                | **Required**  | ID of the input field this label is associated with.                        |
-| label                 | string                | **Required**  | Text content of the label.                                                  |
+| label                 | React.ReactNode       | **Required**  | Text content of the label, supporting React nodes for internationalization.  |
 | required              | boolean               | false         | Marks the label as required (displays an asterisk).                         |
 | optional              | boolean               | false         | Marks the label as optional (displays "(optional)").                        |
 | disabled              | boolean               | false         | Disables the label (applies a muted color).                                 |
-| position              | string                | 'top'         | Position of the label relative to the input ('top', 'left').                |
-| tooltip               | string or React.ReactNode | null      | Content to display in the tooltip.                                          |
+| position              | string                | 'top'         | Position of the label relative to the input ('top', 'left', 'floating').    |
+| tooltip               | React.ReactNode       | null          | Content to display in the tooltip, supporting React nodes.                  |
 | tooltipPlacement      | string                | 'top'         | Position of the tooltip ('top', 'right', 'bottom', 'left', etc.).           |
 | className             | string                | ''            | Additional CSS class names for styling.                                     |
 | style                 | object                | {}            | Inline styles for the component.                                           |
@@ -91,9 +91,27 @@ The `InputLabel` component is a reusable and accessible label for input fields. 
    - Validates required props (`htmlFor`, `label`).
    - Ensures `position` and `tooltipPlacement` values are valid.
 
-5. **Documentation**:
-   - Provides detailed prop descriptions and usage examples.
-   - Includes best practices for accessibility and styling.
+---
+
+## Future Features (TODO)
+
+- **Floating Labels**: Support for labels that move above the input when focused.
+- **Form Validation Integration**: Display error messages directly from form validation libraries.
+- **Label Styles**: Support for different label styles, such as underline or outline.
+- **Icon Support**: Allow inclusion of icons within the label for better context.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- Implement tooltip support with customizable delay.
+- Enhance accessibility features, including ARIA attributes.
+
+### Long-term Goals
+- Add floating labels for a modern input experience.
+- Integrate with form validation libraries for seamless error display.
+- Explore support for additional label styles and icon inclusion.
 
 ---
 
@@ -101,7 +119,7 @@ The `InputLabel` component is a reusable and accessible label for input fields. 
 
 - **State Management**: Manage label state and indicators through props.
 - **Accessibility**: Ensure full compliance with ARIA standards and keyboard navigation.
-- **Performance**: Optimize rendering for dynamic updates.
+- **Performance**: Optimize rendering for dynamic updates using React's memoization.
 - **Documentation**: Provide clear examples and usage guidelines for developers.
 - **Integration**: Ensure compatibility with popular form libraries and input components.
 
@@ -109,4 +127,4 @@ The `InputLabel` component is a reusable and accessible label for input fields. 
 
 ## Conclusion
 
-The `InputLabel` component is a versatile and user-friendly tool for labeling input fields. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible forms with ease.
+The `InputLabel` component is a flexible and user-friendly tool for labeling input fields, designed to enhance user experience through customization and accessibility. By incorporating advanced features and adhering to best practices, it offers a robust solution for form labeling in various applications.

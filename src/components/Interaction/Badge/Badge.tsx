@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from '../../../theme';
 import { BadgeProps } from './types';
 import { StyledBadge, StyledBadgeContent, StyledBadgeWrapper } from './styled';
-import Tooltip from '../Tooltip';
+import { Tooltip } from '../Tooltip';
 
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
   (

@@ -9,7 +9,7 @@ import {
   StyledOptional,
 } from './styled';
 import { InputLabelProps } from './types';
-import Tooltip from '../../interaction/Tooltip';
+import { Tooltip } from '../../interaction/Tooltip';
 
 export const InputLabel = forwardRef<HTMLLabelElement, InputLabelProps>(
   (

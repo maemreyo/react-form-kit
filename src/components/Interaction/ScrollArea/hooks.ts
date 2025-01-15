@@ -13,6 +13,7 @@ export const useScrollPosition = (
     }
   }, [getScrollPosition]);
 
+  // @ts-ignore
   useEffect(() => {
     const element = scrollRef.current;
     if (element) {

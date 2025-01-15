@@ -2,7 +2,7 @@
 
 ## Overview
 
-The InputHelperText component is designed to provide additional context, guidance, or information to users regarding an input field. It is commonly used to display hints, instructions, or validation messages that assist users in filling out forms correctly. This component is highly customizable and supports accessibility, responsiveness, and integration with various design systems.
+The InputHelperText component is designed to provide additional context, guidance, or information to users regarding an input field. It is commonly used to display hints, instructions, or validation messages that assist users in filling out forms correctly. This component is highly customizable, supports accessibility, responsiveness, and integrates with various design systems.
 
 ---
 
@@ -67,11 +67,32 @@ The InputHelperText component is designed to provide additional context, guidanc
 
 ---
 
+## Additional Features
+
+- **Text Alignment**: Support for different text alignments (left, center, right).
+- **Font Styles**: Varying font styles based on the type of message (info, warning, error).
+
+---
+
+## Future Features (TODO)
+
+### Core Functionality
+- [ ] Implement support for rich text in helper messages.
+- [ ] Add support for automated translations.
+
+### User Experience
+- [ ] Implement responsive behavior for helper text positioning.
+- [ ] Support for varying font weights based on message importance.
+
+### Accessibility
+- [ ] Enhance ARIA support for better screen reader compatibility.
+
+---
+
 ## Considerations
 
 - **State Management**: Manage visibility and content through props.
-- **Accessibility**: Ensure helper text is accessible to screen readers and keyboard users.
-- **Security**: Sanitize helper text content to prevent injection attacks.
+- **Security**: Ensure content sanitization to prevent injection attacks.
 - **Performance**: Optimize rendering for dynamic content updates.
 - **Documentation**: Provide clear examples and usage guidelines for developers.
 
@@ -80,3 +101,17 @@ The InputHelperText component is designed to provide additional context, guidanc
 ## Conclusion
 
 The InputHelperText component is a versatile and user-friendly tool for providing additional context or instructions to users. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can enhance the usability and clarity of their forms and input fields.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement core features like dynamic content updates.
+- [ ] Enhance accessibility features.
+
+### Long-term Goals
+- [ ] Integrate with other components for a seamless user experience.
+- [ ] Explore advanced animations and interactions.
+
+This structured approach ensures that the InputHelperText component remains a robust and flexible tool for developers, meeting both current and future design and functionality needs.

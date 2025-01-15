@@ -2,15 +2,14 @@
 
 ## Overview
 
-The `RadioGroup` component is a reusable and highly customizable group of radio buttons designed to handle single selections. It supports features like layout options, custom styles, disabled states, and error handling. The component is accessible, responsive, and optimized for performance, making it suitable for a wide range of applications.
+The `RadioGroup` component is a reusable and highly customizable group of radio buttons designed to handle single selections. It supports features such as layout options, custom styles, disabled states, and error handling. The component is accessible, responsive, and optimized for performance, making it suitable for a wide range of applications.
 
 ---
 
 ## Features
 
 1. **Layout Options**:
-   - Supports vertical and horizontal layouts.
-   - Uses flexbox for flexible arrangement.
+   - Supports vertical and horizontal layouts using flexbox for flexible arrangement.
 
 2. **Group Selection**:
    - Ensures only one radio button can be selected at a time within the group.
@@ -105,6 +104,30 @@ The `RadioGroup` component is a reusable and highly customizable group of radio 
 
 ---
 
+## Future Features (TODO)
+
+### [Core Functionality]
+- [ ] Add support for icons in radio buttons
+- [ ] Implement support for nested radio groups
+- [ ] Add support for custom input types (e.g., toggle switches)
+
+### [User Experience]
+- [ ] Implement animated transitions for selection changes
+- [ ] Add support for tooltips on radio buttons
+- [ ] Implement customizable hover effects
+
+### [Accessibility]
+- [ ] Add support for ARIA live regions
+- [ ] Implement voice control support
+- [ ] Improve focus management for keyboard navigation
+
+### [Performance]
+- [ ] Implement lazy loading for large radio groups
+- [ ] Optimize rendering for virtualized lists
+- [ ] Implement server-side rendering support
+
+---
+
 ## Considerations
 
 - **State Management**: Manage selected value and disabled states through props.
@@ -118,3 +141,21 @@ The `RadioGroup` component is a reusable and highly customizable group of radio 
 ## Conclusion
 
 The `RadioGroup` component is a powerful and flexible tool for handling single selections with radio buttons. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible radio button groups with ease.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement core layout options (vertical and horizontal)
+- [ ] Add support for custom styles
+- [ ] Implement error handling and disabled states
+- [ ] Optimize performance for large radio groups
+- [ ] Ensure accessibility compliance
+
+### Long-term Goals
+- [ ] Add support for icons and nested groups
+- [ ] Implement advanced animations and transitions
+- [ ] Improve performance with lazy loading and server-side rendering
+- [ ] Enhance accessibility with ARIA live regions and voice control
+- [ ] Expand integration with form libraries and validation frameworks

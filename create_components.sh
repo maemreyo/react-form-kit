@@ -63,6 +63,7 @@ do
     # Create styled.ts if it doesn't exist or is empty
     if [ ! -f "$component_dir/styled.ts" ] || [ ! -s "$component_dir/styled.ts" ]; then
         touch "$component_dir/styled.ts"
+        echo "export {};" >> "$component_dir/styled.ts"
         echo "Created $component_dir/styled.ts"
     else
         echo "$component_dir/styled.ts already exists and is not empty"

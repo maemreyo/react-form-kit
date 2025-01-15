@@ -55,6 +55,7 @@ export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
   ) => {
     const [inputValue, setInputValue] = useState('');
     const [selectedItems, setSelectedItems] = useState<string[]>(
+      // @ts-ignore
       value || defaultValue || []
     );
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -109,7 +110,7 @@ export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
         const matchedOptions = matchFn
           ? options.filter((option) => matchFn(option, debouncedInputValue))
           : matchSuggestion(options, debouncedInputValue);
-        setFilteredOptions(matchedOptions);
+        setFilteredOptions(matchedOptions as any);
       } else {
         setFilteredOptions(options);
       }

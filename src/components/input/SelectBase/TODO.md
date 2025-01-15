@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `SelectBase` component is a versatile and highly customizable dropdown selection tool that provides a wide range of features, including dropdown animation, search/filter functionality, custom option rendering, and more. It is designed to be accessible, responsive, and performant, making it suitable for a wide range of applications.
+The `SelectBase` component is a versatile and highly customizable dropdown selection tool that offers a wide range of features, including dropdown animation, search/filter functionality, custom option rendering, and more. It is designed to be accessible, responsive, and performant, making it suitable for a wide range of applications.
 
 ---
 
@@ -91,48 +91,23 @@ The `SelectBase` component is a versatile and highly customizable dropdown selec
 
 ---
 
-## Additional Features
+## Future Features (TODO)
 
-1. **Dynamic Search/Filter**:
-   - Filters options in real-time based on user input.
-   - Supports custom matching logic for advanced filtering.
+### Core Functionality
+- [ ] Implement support for icons in options.
+- [ ] Add support for multiple selection modes.
 
-2. **Custom Option Rendering**:
-   - Allows custom rendering of each option using a render prop or component.
+### User Experience
+- [ ] Implement animated transitions for selection changes.
+- [ ] Add support for tooltips on options.
 
-3. **Grouped Options**:
-   - Organizes options under group labels for better organization.
+### Accessibility
+- [ ] Improve focus management for keyboard navigation.
+- [ ] Add support for ARIA live regions.
 
-4. **Clear Selection**:
-   - Provides a clear button to reset the selection.
-   - Ensures accessibility with proper ARIA labels.
-
-5. **Loading and Error Handling**:
-   - Displays loading indicators during data fetching.
-   - Shows error messages when data fetching fails.
-
-6. **Virtual Scrolling**:
-   - Improves performance with large datasets using virtual scrolling.
-
-7. **Keyboard Navigation**:
-   - Supports arrow keys for navigating options.
-   - Ensures accessibility with ARIA roles and properties.
-
-8. **Selected Items Display**:
-   - Displays selected items as chips with remove buttons.
-   - Shows a count if too many items are selected.
-
-9. **Performance Optimization**:
-   - Uses memoization to prevent unnecessary re-renders.
-   - Optimized for rendering large datasets with virtual scrolling.
-
-10. **Responsiveness**:
-    - Adapts to different screen sizes and devices.
-    - Ensures touch-friendly interactions for mobile devices.
-
-11. **Customization**:
-    - Supports custom styling and theming via CSS-in-JS or CSS variables.
-    - Allows overriding default styles and behaviors.
+### Performance
+- [ ] Optimize rendering for virtualized lists.
+- [ ] Implement server-side rendering support.
 
 ---
 
@@ -141,11 +116,26 @@ The `SelectBase` component is a versatile and highly customizable dropdown selec
 - **State Management**: Manage selected values and option state through props.
 - **Accessibility**: Ensure full compliance with ARIA standards and keyboard navigation.
 - **Performance**: Optimize rendering for dynamic updates and large datasets.
-- **Documentation**: Provide clear examples and usage guidelines for developers.
-- **Integration**: Ensure compatibility with popular form libraries and validation frameworks.
+- **Security**: Implement data sanitization and input validation.
+- **Browser Compatibility**: Ensure cross-browser testing and support.
 
 ---
 
 ## Conclusion
 
 The `SelectBase` component is a powerful and flexible tool for handling dropdown selections. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible dropdown selection tools with ease.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement core animation types.
+- [ ] Add support for custom option rendering.
+- [ ] Ensure accessibility compliance.
+- [ ] Optimize performance for large datasets.
+
+### Long-term Goals
+- [ ] Expand integration with form libraries and validation frameworks.
+- [ ] Enhance security features.
+- [ ] Improve responsiveness and touch interactions.
