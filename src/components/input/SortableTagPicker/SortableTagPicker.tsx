@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { ThemeProvider } from 'styled-components';
-import theme from '@/theme';
+import theme from '../../../theme';
 import {
   StyledContainer,
   StyledInputWrapper,
@@ -233,6 +233,7 @@ export const SortableTagPicker = forwardRef<
                 placeholder={placeholder}
                 disabled={disabled}
                 id={id}
+                autoComplete="off"
                 name={name}
                 data-testid={inputTestId}
                 role={role}
