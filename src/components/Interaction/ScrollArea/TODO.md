@@ -111,6 +111,30 @@ The `ScrollArea` component is a versatile and customizable scrollable container 
 
 ---
 
+## Future Features (TODO)
+
+### Core Functionality
+- [ ] Implement support for virtual scrolling.
+- [ ] Add support for infinite scrolling.
+
+### User Experience
+- [ ] Enhance touch interactions for smoother scrolling on mobile devices.
+- [ ] Implement pull-to-refresh functionality.
+
+### Accessibility
+- [ ] Improve keyboard navigation within the scroll area.
+- [ ] Add support for screen reader announcements on scroll.
+
+### Performance
+- [ ] Optimize rendering for large datasets.
+- [ ] Reduce scroll lag on low-end devices.
+
+### Integration
+- [ ] Provide built-in themes compatible with popular UI libraries.
+- [ ] Ensure seamless integration with dynamic content loaders.
+
+---
+
 ## Considerations
 
 - **State Management**: Manage scroll position and focus state through props.
@@ -124,3 +148,19 @@ The `ScrollArea` component is a versatile and customizable scrollable container 
 ## Conclusion
 
 The `ScrollArea` component is a powerful and flexible tool for creating scrollable containers with advanced features. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible scrollable areas with ease.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement virtual scrolling for large datasets.
+- [ ] Enhance touch interactions for mobile devices.
+- [ ] Improve keyboard navigation within the scroll area.
+
+### Long-term Goals
+- [ ] Integrate pull-to-refresh functionality.
+- [ ] Optimize performance for low-end devices.
+- [ ] Provide built-in themes for popular UI libraries.
+
+This comprehensive design specification ensures that the `ScrollArea` component meets the needs of developers and users alike, providing a robust and flexible solution for scrollable content areas.
