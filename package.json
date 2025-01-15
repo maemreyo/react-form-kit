@@ -1,5 +1,5 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -136,6 +136,7 @@
     "storybook": "^8.4.7",
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.1",
+    "tsconfig-paths-webpack-plugin": "^4.2.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.8.1",
     "typescript": "^5.7.2",

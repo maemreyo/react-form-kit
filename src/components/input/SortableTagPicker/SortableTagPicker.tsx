@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { ThemeProvider } from 'styled-components';
-import theme from '../../../theme';
+import theme from '@/theme';
 import {
   StyledContainer,
   StyledInputWrapper,
@@ -69,15 +69,22 @@ export const SortableTagPicker = forwardRef<
     },
     ref
   ) => {
-    const [selectedValues, setSelectedValues] =
-      useState<string[]>(defaultValue);
+    const isControlled = value !== undefined;
     const [searchText, setSearchText] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const [selectedValues, setSelectedValues] = useState<string[]>(
+      isControlled ? (value as string[]) : defaultValue
+    );
 
+    useEffect(() => {
+      if (isControlled) {
+        setSelectedValues(value as string[]);
+      }
+    }, [isControlled, value]);
     const debouncedSearch = useDebounce((text: string) => {
       onSearch?.(text);
     }, debounceTime);
@@ -106,13 +113,16 @@ export const SortableTagPicker = forwardRef<
         if (selectedValues.length >= maxItems) return;
 
         const newValues = [...selectedValues, option.value];
-        setSelectedValues(newValues);
-        onChange?.(newValues);
+        if (isControlled) {
+          onChange?.(newValues);
+        } else {
+          setSelectedValues(newValues);
+        }
         setSearchText('');
         setIsOpen(false);
         inputRef.current?.focus();
       },
-      [selectedValues, maxItems, onChange]
+      [selectedValues, maxItems, onChange, isControlled]
     );
 
     const handleKeyDown = useCallback(
@@ -190,10 +200,13 @@ export const SortableTagPicker = forwardRef<
                   <StyledRemoveButton
                     onClick={() => {
                       const newValues = selectedValues.filter(
-                        (v) => v !== value
+                        (v) => v !== option.value
                       );
-                      setSelectedValues(newValues);
-                      onChange?.(newValues);
+                      if (isControlled) {
+                        onChange?.(newValues);
+                      } else {
+                        setSelectedValues(newValues);
+                      }
                     }}
                     aria-label={`Remove ${option.label}`}
                   >

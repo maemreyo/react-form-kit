@@ -241,3 +241,42 @@ RTLSupport.args = {
   placeholder: 'اختر العناصر...',
   style: { direction: 'rtl' },
 };
+
+// ControlledWithFeedback story
+export const ControlledWithFeedback: StoryFn<SortableTagPickerProps> = () => {
+  const [selectedValues, setSelectedValues] = useState<string[]>([
+    'react',
+    'typescript',
+  ]);
+
+  const handleOnChange = (values: string[]) => {
+    console.log('Selected values changed:', values);
+    setSelectedValues(values);
+  };
+
+  return (
+    <div>
+      <p>Selected Values: {selectedValues.join(', ')}</p>
+      <button
+        onClick={() => setSelectedValues([...selectedValues, 'vue'])}
+        disabled={selectedValues.includes('vue')}
+      >
+        Add Vue
+      </button>
+      <button
+        onClick={() =>
+          setSelectedValues(selectedValues.filter((v) => v !== 'typescript'))
+        }
+        disabled={!selectedValues.includes('typescript')}
+      >
+        Remove TypeScript
+      </button>
+      <SortableTagPicker
+        options={sampleOptions}
+        value={selectedValues}
+        onChange={handleOnChange}
+        placeholder="Select technologies..."
+      />
+    </div>
+  );
+};
