@@ -3,17 +3,70 @@ import { Meta, StoryFn } from '@storybook/react';
 import { ProgressIndicator } from './ProgressIndicator';
 import { ProgressIndicatorProps } from './types';
 
-const meta: Meta = {
-  title: 'ProgressIndicator',
+export default {
+  title: 'Components/ProgressIndicator',
   component: ProgressIndicator,
-  argTypes: {},
-  parameters: {},
+  argTypes: {
+    type: {
+      control: 'select',
+      options: ['linear', 'circular'],
+      defaultValue: 'linear',
+    },
+    value: {
+      control: { type: 'range', min: 0, max: 100 },
+      defaultValue: 50,
+    },
+    size: {
+      control: 'select',
+      options: ['small', 'medium', 'large'],
+      defaultValue: 'medium',
+    },
+    showLabel: {
+      control: 'boolean',
+      defaultValue: false,
+    },
+    isIndeterminate: {
+      control: 'boolean',
+      defaultValue: false,
+    },
+  },
+} as Meta;
+
+const Template: StoryFn<ProgressIndicatorProps> = (args) => (
+  <ProgressIndicator {...args} />
+);
+
+export const Linear = Template.bind({});
+Linear.args = {
+  type: 'linear',
+  value: 50,
+  showLabel: true,
 };
 
-export default meta;
+export const Circular = Template.bind({});
+Circular.args = {
+  type: 'circular',
+  value: 75,
+  showLabel: true,
+  size: 'large',
+};
 
-const Template: StoryFn<ProgressIndicatorProps> = (args) => <ProgressIndicator {...args} />;
+export const Indeterminate = Template.bind({});
+Indeterminate.args = {
+  isIndeterminate: true,
+  type: 'linear',
+};
 
-export const Default = Template.bind({});
+export const WithOverlay = Template.bind({});
+WithOverlay.args = {
+  value: 30,
+  overlay: true,
+  overlayBlur: 'medium',
+};
 
-Default.args = {};
+export const WithCancelButton = Template.bind({});
+WithCancelButton.args = {
+  value: 60,
+  cancelButton: true,
+  onCancel: () => alert('Progress canceled'),
+};
