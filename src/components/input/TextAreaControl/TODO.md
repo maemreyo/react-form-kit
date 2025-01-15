@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `TextAreaControl` component is a multi-line text input field designed to provide a dynamic and user-friendly experience. It includes features such as auto-resizing, character count, optional resize handles, and customizable height constraints. The component is highly customizable, accessible, and optimized for performance, making it suitable for a wide range of applications.
+The `TextAreaControl` component is a dynamic and user-friendly multi-line text input field designed to enhance user interaction. It offers features such as auto-resizing, character count, optional resize handles, and customizable height constraints. This component is highly customizable, accessible, and optimized for performance, making it suitable for a wide range of applications.
 
 ---
 
@@ -79,29 +79,23 @@ The `TextAreaControl` component is a multi-line text input field designed to pro
 
 ---
 
-## Additional Features
+## Future Features (TODO)
 
-1. **Dynamic Resizing**:
-   - Automatically adjusts height based on content, up to the maximum height.
+### Core Functionality
+- [ ] Implement auto-focus on input.
+- [ ] Add support for automatic scrolling to the bottom.
 
-2. **Character Count Feedback**:
-   - Displays the current character count and provides visual feedback when approaching the limit.
+### User Experience
+- [ ] Enhance character count display with a progress bar.
+- [ ] Provide options for custom scrollbars.
 
-3. **Scroll Behavior**:
-   - Ensures smooth scrolling when content exceeds the maximum height.
-   - Scrollbars appear only when necessary.
+### Accessibility
+- [ ] Improve screen reader announcements for character count.
+- [ ] Add support for voice input.
 
-4. **Accessibility**:
-   - Properly labeled for screen readers.
-   - Complies with ARIA standards for accessibility.
-
-5. **Performance Optimization**:
-   - Minimizes reflows and repaints for efficient rendering.
-   - Uses CSS techniques for smooth auto-resizing.
-
-6. **Styling Customization**:
-   - Supports custom themes and styles via CSS-in-JS or CSS variables.
-   - Allows overriding default styles for borders, padding, and more.
+### Performance
+- [ ] Optimize for touch devices with smoother scrolling.
+- [ ] Implement lazy loading for large text inputs.
 
 ---
 
@@ -110,7 +104,7 @@ The `TextAreaControl` component is a multi-line text input field designed to pro
 - **State Management**: Manage textarea value and state through props.
 - **Accessibility**: Ensure full compliance with ARIA standards and keyboard navigation.
 - **Performance**: Optimize rendering and event handling for dynamic updates.
-- **Documentation**: Provide clear examples and usage guidelines for developers.
+- **Security**: Implement input validation to prevent XSS attacks.
 - **Integration**: Ensure compatibility with popular form libraries and validation frameworks.
 
 ---
@@ -118,3 +112,17 @@ The `TextAreaControl` component is a multi-line text input field designed to pro
 ## Conclusion
 
 The `TextAreaControl` component is a versatile and user-friendly tool for multi-line text input. It is designed to be highly customizable, accessible, and performant, making it suitable for a wide range of applications and design systems. By integrating this component, developers can create consistent, user-friendly, and accessible multi-line input fields with ease.
+
+---
+
+## Roadmap
+
+### Short-term Goals
+- [ ] Implement auto-resize feature.
+- [ ] Add character count display.
+- [ ] Ensure accessibility compliance.
+
+### Long-term Goals
+- [ ] Enhance performance optimization.
+- [ ] Expand customization options.
+- [ ] Improve security features.
