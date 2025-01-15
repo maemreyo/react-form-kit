@@ -5,6 +5,7 @@ export { ToggleSwitch } from './ToggleSwitch';
 export { Pill } from './Pill';
 export { ScrollArea } from './ScrollArea';
 export { Popover } from './Popover';
+export { DraggableList } from './DraggableList';
 export { LoadingSpinner } from './LoadingSpinner';
 export { ValidationSummary } from './ValidationSummary';
 export { FormActions } from './FormActions';
