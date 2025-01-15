@@ -1,16 +1,23 @@
-import { ChangeEvent, FocusEvent, ReactNode } from 'react';
-import Theme, { Interpolation } from 'styled-components';
+import {
+  CSSProperties,
+  ReactNode,
+  ChangeEvent,
+  FocusEvent,
+  KeyboardEvent,
+} from 'react';
 
-export type InputSize = 'sm' | 'md' | 'lg';
-export type ValidationStatus = 'error' | 'success' | 'warning' | 'default' | '';
-export type ValidationTiming = 'onBlur' | 'onChange';
+export interface ValidationRule {
+  test: (value: string) => boolean | Promise<boolean>;
+  message: string;
+}
 
 export interface InputBaseProps {
   value?: string;
   defaultValue?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   disabled?: boolean;
   readOnly?: boolean;
@@ -20,28 +27,28 @@ export interface InputBaseProps {
   autoComplete?: string;
   maxLength?: number;
   minLength?: number;
-  size?: InputSize;
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
-  style?: React.CSSProperties;
-  ref?: React.Ref<HTMLInputElement>;
+  style?: CSSProperties;
   required?: boolean;
   pattern?: string;
-  customValidation?: (value: string) => string | null;
-  errorMessage?: ReactNode;
-  successMessage?: ReactNode;
-  validationStatus?: ValidationStatus;
-  validationTiming?: ValidationTiming;
-  loading?: boolean;
+  validationRules?: ValidationRule[];
+  errorMessage?: string;
+  successMessage?: string;
+  warningMessage?: string;
+  validationTiming?: 'onBlur' | 'onChange';
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
-  ariaLabel?: string;
-  ariaDescribedBy?: string;
-  ariaInvalid?: boolean;
-  ariaRequired?: boolean;
-  ariaDisabled?: boolean;
-  autoFocus?: boolean;
   clearButton?: boolean;
-  customClearButton?: ReactNode;
-  customStyles?: Interpolation<typeof Theme>;
-  onClear?: () => void;
+  focusRing?: boolean;
+  status?: 'default' | 'error' | 'success' | 'warning' | 'loading';
+  loadingIndicator?: ReactNode;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'aria-required'?: boolean;
+  'aria-disabled'?: boolean;
+  role?: string;
+  tabIndex?: number;
+  debounce?: number;
 }

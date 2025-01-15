@@ -1,235 +1,182 @@
-import React, {
-  ChangeEvent,
-  FocusEvent,
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-} from 'react';
-import { InputBaseProps, ValidationStatus } from './types';
-import {
-  StyledInput,
-  Message,
-  IconWrapper,
-  StyledWrapper,
-  ClearButton,
-} from './styled';
+import React, { forwardRef, useState, useCallback } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { Loader, X } from 'lucide-react';
 import theme from '../../../theme';
+import {
+  StyledInputContainer,
+  StyledInputWrapper,
+  StyledInput,
+  StyledIcon,
+  StyledClearButton,
+  StyledMessage,
+} from './styled';
+import { InputBaseProps } from './types';
+import { useInputValidation } from './hooks';
 
-export const InputBase: React.FC<InputBaseProps> = ({
-  value: propValue,
-  defaultValue,
-  onChange,
-  onBlur,
-  onFocus,
-  placeholder,
-  disabled,
-  readOnly,
-  type = 'text',
-  name,
-  id,
-  autoComplete,
-  maxLength,
-  minLength,
-  size = 'md',
-  className,
-  style,
-  required,
-  pattern,
-  customValidation,
-  errorMessage: customErrorMessage,
-  successMessage,
-  validationStatus: externalValidationStatus,
-  validationTiming = 'onBlur',
-  loading,
-  iconLeft,
-  iconRight,
-  ariaLabel,
-  ariaDescribedBy,
-  ariaInvalid,
-  ariaRequired,
-  ariaDisabled,
-  autoFocus,
-  clearButton,
-  customClearButton,
-  customStyles,
-  onClear,
-}) => {
-  const [internalValue, setInternalValue] = useState<string>(
-    defaultValue || propValue || ''
-  );
-  const [isFocused, setIsFocused] = useState(false);
-  const [internalValidationStatus, setInternalValidationStatus] =
-    useState<ValidationStatus>('');
-  const [errorMessage, setErrorMessage] = useState<React.ReactNode>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const hasIconLeft = !!iconLeft;
-  const hasIconRight = !!iconRight || clearButton || loading;
-
-  // Determine the current value to use
-  const value = propValue !== undefined ? propValue : internalValue;
-
-  // Handle validation logic
-  const validateInput = useCallback(
-    (inputValue: string) => {
-      let status: ValidationStatus = '';
-      let errorMsg: React.ReactNode = null;
-
-      if (required && !inputValue) {
-        status = 'error';
-        errorMsg = customErrorMessage || 'This field is required.';
-      } else if (pattern && !new RegExp(pattern).test(inputValue)) {
-        status = 'error';
-        errorMsg = customErrorMessage || 'Invalid format.';
-      } else if (
-        customValidation &&
-        (errorMsg = customValidation(inputValue))
-      ) {
-        status = 'error';
-      } else if (inputValue && successMessage && !errorMsg) {
-        status = 'success';
-      }
-
-      setInternalValidationStatus(status);
-      setErrorMessage(errorMsg);
-      return status;
+export const InputBase = forwardRef<HTMLInputElement, InputBaseProps>(
+  (
+    {
+      value,
+      defaultValue,
+      onChange,
+      onBlur,
+      onFocus,
+      onKeyDown,
+      placeholder,
+      disabled = false,
+      readOnly = false,
+      type = 'text',
+      name,
+      id,
+      autoComplete = 'off',
+      maxLength,
+      minLength,
+      size = 'md',
+      className,
+      style,
+      required = false,
+      pattern,
+      validationRules,
+      errorMessage,
+      successMessage,
+      warningMessage,
+      validationTiming = 'onBlur',
+      iconLeft,
+      iconRight,
+      clearButton = false,
+      focusRing = true,
+      status = 'default',
+      loadingIndicator,
+      'aria-label': ariaLabel,
+      'aria-describedby': ariaDescribedby,
+      'aria-invalid': ariaInvalid,
+      'aria-required': ariaRequired,
+      'aria-disabled': ariaDisabled,
+      role,
+      tabIndex,
+      debounce,
+      ...rest
     },
-    [required, pattern, customValidation, customErrorMessage, successMessage]
-  );
+    ref
+  ) => {
+    const [inputValue, setInputValue] = useState(defaultValue || '');
+    const { validate, error, success } = useInputValidation(
+      validationRules,
+      validationTiming
+    );
 
-  // Handle changes
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setInternalValue(inputValue);
+    const handleChange = useCallback(
+      async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        if (!value) {
+          setInputValue(newValue);
+        }
 
-    if (validationTiming === 'onChange') {
-      validateInput(inputValue);
-    }
+        onChange?.(event);
 
-    onChange?.(e);
-  };
+        if (validationTiming === 'onChange') {
+          await validate(newValue);
+        }
+      },
+      [onChange, validate, validationTiming, value]
+    );
 
-  // Handle focus
-  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
-    setIsFocused(true);
-    onFocus?.(e);
-  };
+    const handleBlur = useCallback(
+      async (event: React.FocusEvent<HTMLInputElement>) => {
+        onBlur?.(event);
 
-  // Handle blur
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    setIsFocused(false);
-    if (validationTiming === 'onBlur') {
-      validateInput(value);
-    }
-    onBlur?.(e);
-  };
+        if (validationTiming === 'onBlur') {
+          await validate(event.target.value);
+        }
+      },
+      [onBlur, validate, validationTiming]
+    );
 
-  const validationStatus = externalValidationStatus || internalValidationStatus;
-  const handleClear = () => {
-    const event = new Event('input', { bubbles: true });
-    inputRef.current?.dispatchEvent(event);
-    // Dispatch an additional 'change' event for better compatibility
-    const changeEvent = new Event('change', { bubbles: true });
-    inputRef.current?.dispatchEvent(changeEvent);
-    if (propValue !== undefined) {
-      onChange?.(event as unknown as ChangeEvent<HTMLInputElement>);
-    } else {
-      setInternalValue('');
-    }
-    setInternalValidationStatus('');
-    setErrorMessage(null);
-    onClear?.();
-  };
-  useEffect(() => {
-    // Perform validation on mount if validationTiming is 'onChange'
-    // Or if there's an external validation status
-    if (validationTiming === 'onChange' || externalValidationStatus) {
-      validateInput(value);
-    }
-  }, [
-    value,
-    validationTiming,
-    externalValidationStatus,
-    validateInput,
-    required,
-    pattern,
-    customValidation,
-  ]); // Include dependencies
+    const handleClear = useCallback(() => {
+      if (!value) {
+        setInputValue('');
+      }
+      const event = {
+        target: { value: '' },
+      } as React.ChangeEvent<HTMLInputElement>;
+      onChange?.(event);
+    }, [onChange, value]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <StyledWrapper $hasIconLeft={hasIconLeft} $hasIconRight={!!hasIconRight}>
-        {iconLeft && (
-          <IconWrapper
-            $position="left"
-            $validationStatus={validationStatus}
-            $hasIconLeft={hasIconLeft}
-            $hasIconRight={!!hasIconRight}
-          >
-            {iconLeft}
-          </IconWrapper>
-        )}
-        <StyledInput
-          value={value}
-          defaultValue={defaultValue}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
-          placeholder={placeholder}
-          disabled={disabled}
-          readOnly={readOnly}
-          type={type}
-          name={name}
-          id={id}
-          autoComplete={autoComplete}
-          maxLength={maxLength}
-          minLength={minLength}
-          size={size}
+    const currentStatus = error ? 'error' : success ? 'success' : status;
+
+    return (
+      <ThemeProvider theme={theme}>
+        <StyledInputContainer
+          $size={size}
+          $status={currentStatus}
+          $disabled={disabled}
+          $focusRing={focusRing}
           className={className}
           style={style}
-          ref={inputRef}
-          required={required}
-          pattern={pattern}
-          validationStatus={validationStatus}
-          $hasIconLeft={!!hasIconLeft} // Changed to boolean
-          $hasIconRight={!!hasIconRight} // Changed to boolean
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedBy}
-          aria-invalid={
-            ariaInvalid !== undefined ? ariaInvalid : !!validationStatus
-          }
-          aria-required={ariaRequired}
-          aria-disabled={ariaDisabled}
-          autoFocus={autoFocus}
-          customStyles={customStyles}
-        />
-        {(iconRight || clearButton || loading) && (
-          <IconWrapper
-            $position="right"
-            $validationStatus={validationStatus}
-            $hasIconLeft={hasIconLeft}
-            $hasIconRight={!!hasIconRight}
+        >
+          <StyledInputWrapper
+            $hasLeftIcon={!!iconLeft}
+            $hasRightIcon={!!iconRight || clearButton}
           >
-            {loading ? (
-              <Loader size={16} />
-            ) : clearButton && value ? (
-              customClearButton ? (
-                <span onClick={handleClear}>{customClearButton}</span>
-              ) : (
-                <ClearButton onClick={handleClear}>
-                  <X size={16} />
-                </ClearButton>
-              )
-            ) : (
-              iconRight
+            {iconLeft && <StyledIcon $position="left">{iconLeft}</StyledIcon>}
+
+            <StyledInput
+              ref={ref}
+              type={type}
+              value={value ?? inputValue}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              onFocus={onFocus}
+              onKeyDown={onKeyDown}
+              placeholder={placeholder}
+              disabled={disabled}
+              readOnly={readOnly}
+              name={name}
+              id={id}
+              autoComplete={autoComplete}
+              maxLength={maxLength}
+              minLength={minLength}
+              required={required}
+              pattern={pattern}
+              aria-label={ariaLabel}
+              aria-describedby={ariaDescribedby}
+              aria-invalid={ariaInvalid ?? !!error}
+              aria-required={ariaRequired ?? required}
+              aria-disabled={ariaDisabled ?? disabled}
+              role={role}
+              tabIndex={tabIndex}
+              {...rest}
+            />
+
+            {iconRight && (
+              <StyledIcon $position="right">{iconRight}</StyledIcon>
             )}
-          </IconWrapper>
+
+            {clearButton && (value || inputValue) && (
+              <StyledClearButton
+                type="button"
+                onClick={handleClear}
+                aria-label="Clear input"
+              >
+                ✕
+              </StyledClearButton>
+            )}
+          </StyledInputWrapper>
+        </StyledInputContainer>
+
+        {error && (
+          <StyledMessage $type="error">{errorMessage || error}</StyledMessage>
         )}
-      </StyledWrapper>
-      {errorMessage && <Message>{errorMessage}</Message>}
-    </ThemeProvider>
-  );
-};
+
+        {success && successMessage && (
+          <StyledMessage $type="success">{successMessage}</StyledMessage>
+        )}
+
+        {!error && !success && warningMessage && (
+          <StyledMessage $type="warning">{warningMessage}</StyledMessage>
+        )}
+      </ThemeProvider>
+    );
+  }
+);
+
+InputBase.displayName = 'InputBase';
