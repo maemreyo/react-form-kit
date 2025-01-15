@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Tooltip from './Tooltip';
 import { TooltipProps } from './types';
+import { Tooltip } from './Tooltip';
 
 export default {
   title: 'Components/Tooltip',

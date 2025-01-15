@@ -182,3 +182,5 @@ export const Tooltip: React.FC<TooltipProps> = ({
     </ThemeProvider>
   );
 };
+
+Tooltip.displayName = 'Tooltip';

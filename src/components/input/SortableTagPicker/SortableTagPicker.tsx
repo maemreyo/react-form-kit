@@ -1,4 +1,3 @@
-// SortableTagPicker.tsx
 import React, {
   forwardRef,
   useState,
@@ -166,8 +165,6 @@ export const SortableTagPicker = forwardRef<
       return () =>
         document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
-    // Rest of the component remains the same until the return statement
 
     return (
       <ThemeProvider theme={theme}>

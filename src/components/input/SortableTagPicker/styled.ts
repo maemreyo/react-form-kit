@@ -20,7 +20,7 @@ export const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
   flex-wrap: wrap;
   align-items: center;
   min-height: 40px;
-  padding: ${(props) => props.theme.space.xs};
+  padding: 0 ${(props) => props.theme.space.xs};
   border: 1px solid
     ${(props) => {
       if (props.$hasError) return props.theme.colors.danger;
@@ -41,7 +41,7 @@ export const StyledInput = styled.input`
   outline: none;
   background: transparent;
   flex: 1;
-  min-width: 100px;
+  min-width: 128px;
   font-size: ${(props) => props.theme.fontSizes.medium};
   color: ${(props) => props.theme.colors.text};
   padding: ${(props) => props.theme.space.xs};
