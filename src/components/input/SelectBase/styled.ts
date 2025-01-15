@@ -37,13 +37,16 @@ export const StyledSelectContainer = styled.div<StyledSelectContainerProps>`
 
 export const StyledSelect = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: ${(props) => props.theme.space.sm};
+  padding: 0 ${(props) => props.theme.space.sm};
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: ${(props) => props.theme.radius.md};
   background: ${(props) => props.theme.colors['form-control-bg']};
   cursor: pointer;
   min-height: 38px;
+  min-width: 100px;
+  width: fit-content;
 
   &:hover {
     border-color: ${(props) => props.theme.colors.primary};
