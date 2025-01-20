@@ -54,9 +54,11 @@ export const SortableTagPicker = forwardRef<
       listTestId = 'sortable-tag-picker-list',
       renderItem,
       renderPill,
+      renderInputTags,
       filterOption,
       debounceTime = 300,
       sortableProps = {},
+      showDraggableList = true,
       ariaLabel = 'Sortable tag picker',
       ariaDescribedby,
       ariaLabelledby,
@@ -85,9 +87,22 @@ export const SortableTagPicker = forwardRef<
         setSelectedValues(value as string[]);
       }
     }, [isControlled, value]);
+
     const debouncedSearch = useDebounce((text: string) => {
       onSearch?.(text);
     }, debounceTime);
+
+    const handleRemoveTag = useCallback(
+      (valueToRemove: string) => {
+        const newValues = selectedValues.filter((v) => v !== valueToRemove);
+        if (isControlled) {
+          onChange?.(newValues);
+        } else {
+          setSelectedValues(newValues);
+        }
+      },
+      [selectedValues, onChange, isControlled]
+    );
 
     // Filter options based on search text and already selected values
     const filteredOptions = options.filter((option) => {
@@ -159,6 +174,11 @@ export const SortableTagPicker = forwardRef<
       [filteredOptions, highlightedIndex, isOpen, handleSelectOption, onKeyDown]
     );
 
+    // Get selected options
+    const selectedOptions = selectedValues
+      .map((value) => options.find((opt) => opt.value === value))
+      .filter((opt): opt is Option => opt !== undefined);
+
     // Close dropdown when clicking outside
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -190,31 +210,24 @@ export const SortableTagPicker = forwardRef<
             $disabled={disabled}
             $hasError={!!error}
           >
-            {selectedValues.map((value) => {
-              const option = options.find((opt) => opt.value === value);
-              if (!option) return null;
+            {renderInputTags
+              ? renderInputTags(selectedOptions, handleRemoveTag)
+              : selectedValues.map((value) => {
+                  const option = options.find((opt) => opt.value === value);
+                  if (!option) return null;
 
-              return (
-                <StyledPill key={value}>
-                  {renderPill ? renderPill(option) : option.label}
-                  <StyledRemoveButton
-                    onClick={() => {
-                      const newValues = selectedValues.filter(
-                        (v) => v !== option.value
-                      );
-                      if (isControlled) {
-                        onChange?.(newValues);
-                      } else {
-                        setSelectedValues(newValues);
-                      }
-                    }}
-                    aria-label={`Remove ${option.label}`}
-                  >
-                    ×
-                  </StyledRemoveButton>
-                </StyledPill>
-              );
-            })}
+                  return (
+                    <StyledPill key={value}>
+                      {renderPill ? renderPill(option) : option.label}
+                      <StyledRemoveButton
+                        onClick={() => handleRemoveTag(option.value)}
+                        aria-label={`Remove ${option.label}`}
+                      >
+                        ×
+                      </StyledRemoveButton>
+                    </StyledPill>
+                  );
+                })}
             <StyledInputContainer>
               <StyledInput
                 ref={ref || inputRef}
@@ -266,52 +279,58 @@ export const SortableTagPicker = forwardRef<
             </StyledInputContainer>
           </StyledInputWrapper>
 
-          <DragDropContext
-            onDragEnd={(result) => {
-              if (!result.destination) return;
+          {showDraggableList && (
+            <DragDropContext
+              onDragEnd={(result) => {
+                if (!result.destination) return;
 
-              const items = Array.from(selectedValues);
-              const [reorderedItem] = items.splice(result.source.index, 1);
-              items.splice(result.destination.index, 0, reorderedItem);
+                const items = Array.from(selectedValues);
+                const [reorderedItem] = items.splice(result.source.index, 1);
+                items.splice(result.destination.index, 0, reorderedItem);
 
-              setSelectedValues(items);
-              onOrderChange?.(items);
-            }}
-          >
-            <Droppable droppableId="tag-list">
-              {(provided, snapshot) => (
-                <StyledTagList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  $isDragging={snapshot.isDraggingOver}
-                  data-testid={listTestId}
-                  role={listRole}
-                >
-                  {selectedValues.map((value, index) => {
-                    const option = options.find((opt) => opt.value === value);
-                    if (!option) return null;
+                setSelectedValues(items);
+                onOrderChange?.(items);
+              }}
+            >
+              <Droppable droppableId="tag-list">
+                {(provided, snapshot) => (
+                  <StyledTagList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    $isDragging={snapshot.isDraggingOver}
+                    data-testid={listTestId}
+                    role={listRole}
+                  >
+                    {selectedValues.map((value, index) => {
+                      const option = options.find((opt) => opt.value === value);
+                      if (!option) return null;
 
-                    return (
-                      <Draggable key={value} draggableId={value} index={index}>
-                        {(provided, snapshot) => (
-                          <StyledTagItem
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            $isDragging={snapshot.isDragging}
-                            role={itemRole}
-                          >
-                            {renderItem ? renderItem(option) : option.label}
-                          </StyledTagItem>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </StyledTagList>
-              )}
-            </Droppable>
-          </DragDropContext>
+                      return (
+                        <Draggable
+                          key={value}
+                          draggableId={value}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <StyledTagItem
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              $isDragging={snapshot.isDragging}
+                              role={itemRole}
+                            >
+                              {renderItem ? renderItem(option) : option.label}
+                            </StyledTagItem>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </StyledTagList>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
 
           {error && <StyledError role="alert">{error}</StyledError>}
         </StyledContainer>

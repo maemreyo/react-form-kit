@@ -42,6 +42,11 @@ export interface SortableTagPickerProps {
   role?: string;
   listRole?: string;
   itemRole?: string;
+  showDraggableList?: boolean;
+  renderInputTags?: (
+    tags: Option[],
+    onRemove: (value: string) => void
+  ) => ReactNode;
 }
 
 export interface StyledContainerProps {
