@@ -43,7 +43,7 @@ export const useSearch = (
   const debouncedFilter = useCallback(
     debounce((term: string) => {
       const filtered = filterOptions(options, term);
-      setFilteredOptions(filtered);
+      setFilteredOptions(filtered as any);
     }, debounceTime),
     [options, filterOptions, debounceTime]
   );
