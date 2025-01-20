@@ -46,7 +46,7 @@ export const StyledSelect = styled.div`
   cursor: pointer;
   min-height: 38px;
   min-width: 100px;
-  width: fit-content;
+  width: 100%;
 
   &:hover {
     border-color: ${(props) => props.theme.colors.primary};
