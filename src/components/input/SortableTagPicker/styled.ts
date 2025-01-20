@@ -44,7 +44,7 @@ export const StyledInput = styled.input`
   min-width: 128px;
   font-size: ${(props) => props.theme.fontSizes.medium};
   color: ${(props) => props.theme.colors.text};
-  padding: ${(props) => props.theme.space.xs};
+  padding: ${(props) => props.theme.space.sm};
 
   &::placeholder {
     color: ${(props) => props.theme.colors['text-muted']};

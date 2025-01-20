@@ -21,7 +21,7 @@ export const StyledInputContainer = styled.div`
 export const StyledInput = styled.textarea`
   flex: 1;
   min-width: 50px; // Chiều rộng tối thiểu
-  padding: ${(props) => props.theme.space.xs};
+  padding: ${(props) => props.theme.space.sm};
   font-size: ${(props) => props.theme.fontSizes.small};
   border: none;
   outline: none;
