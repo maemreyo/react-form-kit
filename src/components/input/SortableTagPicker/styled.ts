@@ -19,97 +19,137 @@ export const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  min-height: 40px;
-  padding: 0 ${(props) => props.theme.space.xs};
+  gap: 4px;
+  min-height: 38px;
+  padding: 4px 8px;
   border: 1px solid
-    ${(props) => {
-      if (props.$hasError) return props.theme.colors.danger;
-      if (props.$isFocused) return props.theme.colors.primary;
-      return props.theme.colors.border;
-    }};
-  border-radius: ${(props) => props.theme.radius.md};
-  background-color: ${(props) => props.theme.colors['form-control-bg']};
-  transition: all ${(props) => props.theme.transitions.transitionMD};
+    ${({ theme, $hasError }) =>
+      $hasError ? theme.colors.error : theme.colors.border};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.background};
+  transition: all 0.2s ease;
 
-  &:hover {
-    border-color: ${(props) => !props.$hasError && props.theme.colors.primary};
+  &:focus-within {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}20;
   }
+
+  ${({ $disabled }) =>
+    $disabled &&
+    css`
+      background-color: ${({ theme }) => theme.colors.disabled};
+      cursor: not-allowed;
+    `}
+`;
+
+export const StyledInputContainer = styled.div`
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  position: relative;
 `;
 
 export const StyledInput = styled.input`
+  width: 100%;
   border: none;
   outline: none;
   background: transparent;
-  flex: 1;
-  min-width: 128px;
-  font-size: ${(props) => props.theme.fontSizes.medium};
-  color: ${(props) => props.theme.colors.text};
-  padding: ${(props) => props.theme.space.sm};
+  font-size: 14px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.text};
+  padding: 4px;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: transparent;
+  }
 
   &::placeholder {
-    color: ${(props) => props.theme.colors['text-muted']};
+    color: ${({ theme }) => theme.colors.placeholder};
   }
 `;
 
-export const StyledTagList = styled.ul<StyledTagListProps>`
-  list-style: none;
-  padding: ${(props) => props.theme.space.sm} 0;
-  margin: 0;
-  min-height: 40px;
-  background: ${(props) =>
-    props.$isDragging ? props.theme.colors['light-300'] : 'transparent'};
-  transition: background-color
-    ${(props) => props.theme.transitions.transitionMD};
+export const StyledTagList = styled.div<StyledTagListProps>`
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px dashed
+    ${({ theme, $isDragging }) =>
+      $isDragging ? theme.colors.primary : theme.colors.border};
+  border-radius: 4px;
+  background-color: ${({ theme, $isDragging }) =>
+    $isDragging ? theme.colors.primary50 + '30' : 'transparent'};
+  min-height: 42px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: ${({ $direction }) =>
+    $direction === 'vertical' ? 'column' : 'row'};
+  flex-wrap: ${({ $direction }) =>
+    $direction === 'vertical' ? 'nowrap' : 'wrap'};
+  gap: 8px;
+  align-items: ${({ $direction }) =>
+    $direction === 'vertical' ? 'stretch' : 'center'};
 `;
 
-export const StyledTagItem = styled.li<StyledTagItemProps>`
-  display: flex;
+export const StyledTagItem = styled.div<StyledTagItemProps>`
+  display: inline-flex;
   align-items: center;
-  padding: ${(props) => props.theme.space.sm};
-  margin: ${(props) => props.theme.space.xs} 0;
-  background: ${(props) =>
-    props.$isDragging
-      ? props.theme.colors.white
-      : props.theme.colors['light-100']};
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: ${(props) => props.theme.radius.sm};
-  cursor: move;
+  margin: 0;
+  padding: 6px 12px;
+  background-color: ${({ theme, $isDragging, $disabled }) =>
+    $disabled
+      ? theme.colors.disabled
+      : $isDragging
+        ? theme.colors.primary100
+        : theme.colors.primary50};
+  border-radius: 16px;
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'grab')};
+  opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
   user-select: none;
-  transition: all ${(props) => props.theme.transitions.transitionMD};
+  border: 1px solid
+    ${({ theme, $disabled }) =>
+      $disabled ? theme.colors.border : theme.colors.primary};
+  transition: all 0.2s ease;
+  width: ${({ theme }) => (theme.direction === 'vertical' ? '100%' : 'auto')};
 
   &:hover {
-    background: ${(props) => props.theme.colors['light-200']};
+    background-color: ${({ theme, $disabled }) =>
+      $disabled ? theme.colors.disabled : theme.colors.primary100};
   }
 `;
 
 export const StyledPill = styled.span`
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  background: ${(props) => props.theme.colors['light-200']};
-  border-radius: ${(props) => props.theme.radius.pill};
-  padding: ${(props) => `${props.theme.space.xs} ${props.theme.space.sm}`};
-  margin: ${(props) => props.theme.space.xs};
-  font-size: ${(props) => props.theme.fontSizes.small};
+  gap: 6px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const StyledRemoveButton = styled.button`
-  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin-left: 2px;
   border: none;
-  color: ${(props) => props.theme.colors['text-muted']};
-  padding: ${(props) => props.theme.space.xs};
-  margin-left: ${(props) => props.theme.space.xs};
+  background: none;
+  color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
-  transition: color ${(props) => props.theme.transitions.transitionMD};
+  border-radius: 50%;
+  transition: all 0.2s ease;
 
   &:hover {
-    color: ${(props) => props.theme.colors.danger};
+    background-color: ${({ theme }) => theme.colors.primary200};
+    color: ${({ theme }) => theme.colors.error};
   }
-`;
 
-export const StyledError = styled.span`
-  color: ${(props) => props.theme.colors.danger};
-  font-size: ${(props) => props.theme.fontSizes.small};
-  margin-top: ${(props) => props.theme.space.xs};
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary300};
+  }
 `;
 
 export const StyledDropdown = styled.div<{ $isOpen: boolean }>`
@@ -117,65 +157,46 @@ export const StyledDropdown = styled.div<{ $isOpen: boolean }>`
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: ${(props) => props.theme.colors.white};
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: ${(props) => props.theme.radius.md};
-  margin-top: ${(props) => props.theme.space.xs};
+  z-index: 1000;
+  margin-top: 4px;
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-height: 200px;
   overflow-y: auto;
-  z-index: 1000;
-  display: ${(props) => (props.$isOpen ? 'block' : 'none')};
-  box-shadow: ${(props) => props.theme.shadows.md};
-
-  /* Custom Scrollbar Styling */
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 3px;
-
-    &:hover {
-      background: #555;
-    }
-  }
-
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
+  min-width: 200px;
 `;
 
 export const StyledOption = styled.div<{
-  $isSelected: boolean;
   $isHighlighted: boolean;
+  $isSelected: boolean;
 }>`
-  padding: ${(props) => props.theme.space.sm};
+  padding: 8px 12px;
   cursor: pointer;
-  background: ${(props) => {
-    if (props.$isHighlighted) return props.theme.colors['light-300'];
-    if (props.$isSelected) return props.theme.colors['light-200'];
-    return 'transparent';
-  }};
+  background-color: ${({ theme, $isHighlighted, $isSelected }) =>
+    $isHighlighted
+      ? theme.colors.primary100
+      : $isSelected
+        ? theme.colors.primary50
+        : 'transparent'};
+  color: ${({ theme }) => theme.colors.text};
+  transition: all 0.2s ease;
 
   &:hover {
-    background: ${(props) => props.theme.colors['light-300']};
+    background-color: ${({ theme }) => theme.colors.primary100};
   }
 `;
 
 export const StyledNoOptions = styled.div`
-  padding: ${(props) => props.theme.space.sm};
-  color: ${(props) => props.theme.colors['text-muted']};
+  padding: 8px 12px;
+  color: ${({ theme }) => theme.colors.placeholder};
   text-align: center;
 `;
 
-export const StyledInputContainer = styled.div`
-  position: relative;
-  width: 100%;
+export const StyledError = styled.div`
+  margin-top: 4px;
+  color: ${({ theme }) => theme.colors.error};
+  font-size: 12px;
 `;

@@ -4,6 +4,7 @@ import { CSSProperties, ReactNode, FocusEvent, KeyboardEvent } from 'react';
 export interface Option {
   value: string;
   label: string;
+  disabled?: boolean;
 }
 
 export interface SortableTagPickerProps {
@@ -47,6 +48,8 @@ export interface SortableTagPickerProps {
     tags: Option[],
     onRemove: (value: string) => void
   ) => ReactNode;
+  disabledItemsPosition?: 'top' | 'bottom' | 'none';
+  draggableListDirection?: 'horizontal' | 'vertical';
 }
 
 export interface StyledContainerProps {
@@ -60,11 +63,12 @@ export interface StyledInputWrapperProps {
   $hasError?: boolean;
 }
 
-export interface StyledTagListProps {
-  $isDragging?: boolean;
-}
-
 export interface StyledTagItemProps {
   $isDragging?: boolean;
   $disabled?: boolean;
+}
+
+export interface StyledTagListProps {
+  $isDragging?: boolean;
+  $direction?: 'horizontal' | 'vertical';
 }

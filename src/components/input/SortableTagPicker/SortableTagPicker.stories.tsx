@@ -24,12 +24,12 @@ export default meta;
 // Sample data
 const sampleOptions: Option[] = [
   { value: 'react', label: 'React' },
-  { value: 'vue', label: 'Vue' },
+  { value: 'vue', label: 'Vue', disabled: true },
   { value: 'angular', label: 'Angular' },
-  { value: 'svelte', label: 'Svelte' },
+  { value: 'svelte', label: 'Svelte', disabled: true },
   { value: 'nextjs', label: 'Next.js' },
   { value: 'gatsby', label: 'Gatsby' },
-  { value: 'typescript', label: 'TypeScript' },
+  { value: 'typescript', label: 'TypeScript', disabled: true },
   { value: 'javascript', label: 'JavaScript' },
   { value: 'nodejs', label: 'Node.js' },
   { value: 'python', label: 'Python' },
@@ -279,4 +279,105 @@ export const ControlledWithFeedback: StoryFn<SortableTagPickerProps> = () => {
       />
     </div>
   );
+};
+
+// With disabled items at top
+export const DisabledItemsTop = Template.bind({});
+DisabledItemsTop.args = {
+  options: sampleOptions,
+  disabledItemsPosition: 'top',
+  defaultValue: ['vue', 'react', 'typescript', 'javascript'],
+  placeholder: 'Disabled items at top...',
+};
+DisabledItemsTop.parameters = {
+  docs: {
+    description: {
+      story:
+        'Shows how disabled items can be positioned at the top of the list.',
+    },
+  },
+};
+
+// With disabled items at bottom
+export const DisabledItemsBottom = Template.bind({});
+DisabledItemsBottom.args = {
+  options: sampleOptions,
+  disabledItemsPosition: 'bottom',
+  defaultValue: ['vue', 'react', 'typescript', 'javascript'],
+  placeholder: 'Disabled items at bottom...',
+};
+DisabledItemsBottom.parameters = {
+  docs: {
+    description: {
+      story:
+        'Shows how disabled items can be positioned at the bottom of the list.',
+    },
+  },
+};
+
+// Empty state
+export const EmptyState = Template.bind({});
+EmptyState.args = {
+  options: sampleOptions,
+  defaultValue: [],
+  placeholder: 'No items selected...',
+};
+EmptyState.parameters = {
+  docs: {
+    description: {
+      story: 'Shows how the component looks when no items are selected.',
+    },
+  },
+};
+
+// With horizontal layout (default)
+export const HorizontalLayout = Template.bind({});
+HorizontalLayout.args = {
+  options: sampleOptions,
+  defaultValue: ['vue', 'react', 'typescript', 'javascript'],
+  draggableListDirection: 'horizontal',
+  placeholder: 'Horizontal layout (default)...',
+};
+HorizontalLayout.parameters = {
+  docs: {
+    description: {
+      story:
+        'Shows the default horizontal layout where items flow from left to right and wrap to the next line.',
+    },
+  },
+};
+
+// With vertical layout
+export const VerticalLayout = Template.bind({});
+VerticalLayout.args = {
+  options: sampleOptions,
+  defaultValue: ['vue', 'react', 'typescript', 'javascript'],
+  draggableListDirection: 'vertical',
+  placeholder: 'Vertical layout...',
+};
+VerticalLayout.parameters = {
+  docs: {
+    description: {
+      story:
+        'Shows a vertical layout where items are stacked on top of each other, making it easier to reorder items in a list-like format.',
+    },
+  },
+};
+
+// Combined features
+export const CombinedFeatures = Template.bind({});
+CombinedFeatures.args = {
+  options: sampleOptions,
+  defaultValue: ['vue', 'react', 'typescript', 'javascript', 'svelte'],
+  draggableListDirection: 'vertical',
+  disabledItemsPosition: 'top',
+  placeholder: 'Combined features...',
+};
+CombinedFeatures.parameters = {
+  docs: {
+    description: {
+      story:
+        'Demonstrates how different features work together - vertical layout with disabled items positioned at the top.',
+    },
+  },
 };

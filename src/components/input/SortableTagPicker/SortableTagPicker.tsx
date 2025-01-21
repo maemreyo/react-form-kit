@@ -42,6 +42,7 @@ export const SortableTagPicker = forwardRef<
       onKeyDown,
       placeholder = 'Search and select items...',
       disabled = false,
+      disabledItemsPosition = 'none',
       loading = false,
       error = '',
       maxItems = Infinity,
@@ -68,6 +69,7 @@ export const SortableTagPicker = forwardRef<
       role = 'combobox',
       listRole = 'listbox',
       itemRole = 'option',
+      draggableListDirection = 'horizontal',
     },
     ref
   ) => {
@@ -92,8 +94,26 @@ export const SortableTagPicker = forwardRef<
       onSearch?.(text);
     }, debounceTime);
 
+    const sortSelectedOptions = useCallback(() => {
+      const selectedOptions = selectedValues
+        .map((value) => options.find((opt) => opt.value === value))
+        .filter((opt): opt is Option => opt !== undefined);
+
+      if (disabledItemsPosition === 'none') return selectedOptions;
+
+      const disabledItems = selectedOptions.filter((opt) => opt.disabled);
+      const enabledItems = selectedOptions.filter((opt) => !opt.disabled);
+
+      return disabledItemsPosition === 'top'
+        ? [...disabledItems, ...enabledItems]
+        : [...enabledItems, ...disabledItems];
+    }, [selectedValues, options, disabledItemsPosition]);
+
     const handleRemoveTag = useCallback(
       (valueToRemove: string) => {
+        const option = options.find((opt) => opt.value === valueToRemove);
+        if (option?.disabled) return;
+
         const newValues = selectedValues.filter((v) => v !== valueToRemove);
         if (isControlled) {
           onChange?.(newValues);
@@ -101,7 +121,7 @@ export const SortableTagPicker = forwardRef<
           setSelectedValues(newValues);
         }
       },
-      [selectedValues, onChange, isControlled]
+      [isControlled, onChange, selectedValues, options]
     );
 
     // Filter options based on search text and already selected values
@@ -174,11 +194,6 @@ export const SortableTagPicker = forwardRef<
       [filteredOptions, highlightedIndex, isOpen, handleSelectOption, onKeyDown]
     );
 
-    // Get selected options
-    const selectedOptions = selectedValues
-      .map((value) => options.find((opt) => opt.value === value))
-      .filter((opt): opt is Option => opt !== undefined);
-
     // Close dropdown when clicking outside
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -211,23 +226,20 @@ export const SortableTagPicker = forwardRef<
             $hasError={!!error}
           >
             {renderInputTags
-              ? renderInputTags(selectedOptions, handleRemoveTag)
-              : selectedValues.map((value) => {
-                  const option = options.find((opt) => opt.value === value);
-                  if (!option) return null;
-
-                  return (
-                    <StyledPill key={value}>
-                      {renderPill ? renderPill(option) : option.label}
+              ? renderInputTags(sortSelectedOptions(), handleRemoveTag)
+              : sortSelectedOptions().map((option) => (
+                  <StyledPill key={option.value}>
+                    {renderPill ? renderPill(option) : option.label}
+                    {!option.disabled && (
                       <StyledRemoveButton
                         onClick={() => handleRemoveTag(option.value)}
                         aria-label={`Remove ${option.label}`}
                       >
                         ×
                       </StyledRemoveButton>
-                    </StyledPill>
-                  );
-                })}
+                    )}
+                  </StyledPill>
+                ))}
             <StyledInputContainer>
               <StyledInput
                 ref={ref || inputRef}
@@ -279,52 +291,85 @@ export const SortableTagPicker = forwardRef<
             </StyledInputContainer>
           </StyledInputWrapper>
 
-          {showDraggableList && (
+          {showDraggableList && selectedValues.length > 0 && (
             <DragDropContext
               onDragEnd={(result) => {
                 if (!result.destination) return;
 
-                const items = Array.from(selectedValues);
-                const [reorderedItem] = items.splice(result.source.index, 1);
-                items.splice(result.destination.index, 0, reorderedItem);
+                const sourceIndex = result.source.index;
+                const destinationIndex = result.destination.index;
 
-                setSelectedValues(items);
-                onOrderChange?.(items);
+                const sortedOptions = sortSelectedOptions();
+                const sourceItem = sortedOptions[sourceIndex];
+                const destinationItem = sortedOptions[destinationIndex];
+
+                // Prevent dragging if source or destination item is disabled
+                if (sourceItem?.disabled || destinationItem?.disabled) return;
+
+                const items = Array.from(sortedOptions);
+                const [reorderedItem] = items.splice(sourceIndex, 1);
+                items.splice(destinationIndex, 0, reorderedItem);
+
+                const newOrder = items.map((item) => item.value);
+
+                if (isControlled) {
+                  onOrderChange?.(newOrder);
+                } else {
+                  setSelectedValues(newOrder);
+                }
               }}
             >
-              <Droppable droppableId="tag-list">
+              <Droppable
+                droppableId="droppable"
+                direction={draggableListDirection}
+              >
                 {(provided, snapshot) => (
                   <StyledTagList
-                    ref={provided.innerRef}
                     {...provided.droppableProps}
+                    ref={provided.innerRef}
                     $isDragging={snapshot.isDraggingOver}
+                    $direction={draggableListDirection}
                     data-testid={listTestId}
                     role={listRole}
                   >
-                    {selectedValues.map((value, index) => {
-                      const option = options.find((opt) => opt.value === value);
-                      if (!option) return null;
-
-                      return (
-                        <Draggable
-                          key={value}
-                          draggableId={value}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <StyledTagItem
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              $isDragging={snapshot.isDragging}
-                              role={itemRole}
-                            >
-                              {renderItem ? renderItem(option) : option.label}
-                            </StyledTagItem>
-                          )}
-                        </Draggable>
-                      );
-                    })}
+                    {sortSelectedOptions().map((option, index) => (
+                      <Draggable
+                        key={option.value}
+                        draggableId={option.value}
+                        index={index}
+                        isDragDisabled={disabled || option.disabled}
+                      >
+                        {(provided, snapshot) => (
+                          <StyledTagItem
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            $isDragging={snapshot.isDragging}
+                            $disabled={option.disabled}
+                          >
+                            <StyledPill>
+                              {renderPill ? (
+                                renderPill(option)
+                              ) : (
+                                <>
+                                  {option.label}
+                                  {!option.disabled && (
+                                    <StyledRemoveButton
+                                      onClick={() =>
+                                        handleRemoveTag(option.value)
+                                      }
+                                      aria-label={`Remove ${option.label}`}
+                                    >
+                                      ×
+                                    </StyledRemoveButton>
+                                  )}
+                                </>
+                              )}
+                            </StyledPill>
+                          </StyledTagItem>
+                        )}
+                      </Draggable>
+                    ))}
                     {provided.placeholder}
                   </StyledTagList>
                 )}
