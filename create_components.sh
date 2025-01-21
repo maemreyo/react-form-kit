@@ -7,7 +7,7 @@ base_dir="src/components"
 component_paths=(
     "input/RadioGroup" "input/FileUpload" "input/TimePicker" "input/AutoComplete" "input/CheckboxGroup"
     "input/InputControl" "input/InputIcon" "input/DatePicker" "input/InputErrorMessage" "input/SelectBase"
-    "input/InputBase" "input/Combobox" "input/ColorPicker" "input/NumberInput" "input/TextAreaControl"
+    "input/InputBase" "input/ComboBox" "input/ColorPicker" "input/NumberInput" "input/TextAreaControl"
     "input/MultiSelect" "input/InputHelperText" "input/InputLabel" "input/InputGroup" "input/SortableTagPicker"
 
     "layout/FormMessage" "layout/FormStepper" "layout/FormAccordion" "layout/FormGroup" "layout/FormRow"
