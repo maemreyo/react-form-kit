@@ -282,6 +282,22 @@ export const SortableTagPicker = forwardRef<
                       $isSelected={selectedValues.includes(option.value)}
                       $isHighlighted={index === highlightedIndex}
                       role={itemRole}
+                      tabIndex={index === highlightedIndex ? 0 : -1}
+                      ref={
+                        index === highlightedIndex
+                          ? (el) => {
+                              if (el) {
+                                el.scrollIntoView({ block: 'nearest' });
+                              }
+                            }
+                          : undefined
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleSelectOption(option);
+                        }
+                      }}
                     >
                       {renderItem ? renderItem(option) : option.label}
                     </StyledOption>
@@ -347,25 +363,23 @@ export const SortableTagPicker = forwardRef<
                             $isDragging={snapshot.isDragging}
                             $disabled={option.disabled}
                           >
-                            <StyledPill>
-                              {renderPill ? (
-                                renderPill(option)
-                              ) : (
-                                <>
-                                  {option.label}
-                                  {!option.disabled && (
-                                    <StyledRemoveButton
-                                      onClick={() =>
-                                        handleRemoveTag(option.value)
-                                      }
-                                      aria-label={`Remove ${option.label}`}
-                                    >
-                                      ×
-                                    </StyledRemoveButton>
-                                  )}
-                                </>
-                              )}
-                            </StyledPill>
+                            {renderPill ? (
+                              renderPill(option)
+                            ) : (
+                              <>
+                                {option.label}
+                                {!option.disabled && (
+                                  <StyledRemoveButton
+                                    onClick={() =>
+                                      handleRemoveTag(option.value)
+                                    }
+                                    aria-label={`Remove ${option.label}`}
+                                  >
+                                    ×
+                                  </StyledRemoveButton>
+                                )}
+                              </>
+                            )}
                           </StyledTagItem>
                         )}
                       </Draggable>

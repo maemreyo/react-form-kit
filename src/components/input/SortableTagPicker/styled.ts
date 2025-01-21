@@ -15,6 +15,23 @@ export const StyledContainer = styled.div<StyledContainerProps>`
   pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
 `;
 
+export const StyledPill = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text};
+  background-color: ${({ theme }) => theme.colors.primary50};
+  padding: 2px 8px;
+  border-radius: 16px;
+  border: 1px solid ${({ theme }) => theme.colors.primary200};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primary100};
+  }
+`;
+
 export const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
   display: flex;
   flex-wrap: wrap;
@@ -40,6 +57,21 @@ export const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
       background-color: ${({ theme }) => theme.colors.disabled};
       cursor: not-allowed;
     `}
+
+  /* Style for selected pills in the input */
+  ${StyledPill} {
+    background-color: ${({ theme }) => theme.colors.primary50};
+    border: 1px solid ${({ theme }) => theme.colors.primary200};
+    padding: 2px 8px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.primary100};
+    }
+  }
 `;
 
 export const StyledInputContainer = styled.div`
@@ -118,14 +150,6 @@ export const StyledTagItem = styled.div<StyledTagItemProps>`
   }
 `;
 
-export const StyledPill = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
 export const StyledRemoveButton = styled.button`
   display: inline-flex;
   align-items: center;
@@ -133,13 +157,17 @@ export const StyledRemoveButton = styled.button`
   width: 16px;
   height: 16px;
   padding: 0;
-  margin-left: 2px;
+  padding-top: 2px;
+  padding-left: 1px;
+  margin-left: 4px;
   border: none;
   background: none;
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
   border-radius: 50%;
   transition: all 0.2s ease;
+  font-size: 16px;
+  line-height: 1;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary200};
@@ -183,9 +211,19 @@ export const StyledOption = styled.div<{
         : 'transparent'};
   color: ${({ theme }) => theme.colors.text};
   transition: all 0.2s ease;
+  border-left: 3px solid
+    ${({ theme, $isHighlighted }) =>
+      $isHighlighted ? theme.colors.primary : 'transparent'};
+  outline: none;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary100};
+  }
+
+  /* Add visual indicator for keyboard navigation */
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
+    outline-offset: -2px;
   }
 `;
 
