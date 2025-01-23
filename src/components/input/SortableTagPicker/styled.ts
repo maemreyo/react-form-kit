@@ -141,13 +141,26 @@ export const StyledTagItem = styled.div<StyledTagItemProps>`
   border: 1px solid
     ${({ theme, $disabled }) =>
       $disabled ? theme.colors.border : theme.colors.primary};
-  transition: all 0.2s ease;
+  transition: ${({ $isDragging }) => ($isDragging ? 'none' : 'all 0.2s ease')};
   width: ${({ theme }) =>
     theme.direction === 'vertical' ? '100%' : 'fit-content'};
+  position: relative;
+  z-index: ${({ $isDragging }) => ($isDragging ? 9999 : 1)};
+
+  ${({ $isDragging }) =>
+    $isDragging &&
+    css`
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      transform-origin: 50% 50%;
+    `}
 
   &:hover {
     background-color: ${({ theme, $disabled }) =>
       $disabled ? theme.colors.disabled : theme.colors.primary100};
+  }
+
+  &:active {
+    cursor: grabbing;
   }
 `;
 
