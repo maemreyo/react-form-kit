@@ -142,7 +142,8 @@ export const StyledTagItem = styled.div<StyledTagItemProps>`
     ${({ theme, $disabled }) =>
       $disabled ? theme.colors.border : theme.colors.primary};
   transition: all 0.2s ease;
-  width: ${({ theme }) => (theme.direction === 'vertical' ? '100%' : 'auto')};
+  width: ${({ theme }) =>
+    theme.direction === 'vertical' ? '100%' : 'fit-content'};
 
   &:hover {
     background-color: ${({ theme, $disabled }) =>
