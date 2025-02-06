@@ -70,11 +70,13 @@ export const SortableTagPicker = forwardRef<
       listRole = 'listbox',
       itemRole = 'option',
       draggableListDirection = 'horizontal',
+      searchOnMount = false,
     },
     ref
   ) => {
     const isControlled = value !== undefined;
     const [searchText, setSearchText] = useState('');
+    const [hasInitialized, setHasInitialized] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -83,6 +85,13 @@ export const SortableTagPicker = forwardRef<
     const [selectedValues, setSelectedValues] = useState<string[]>(
       isControlled ? (value as string[]) : defaultValue
     );
+
+    useEffect(() => {
+      if (!hasInitialized && onSearch && searchOnMount) {
+        onSearch('');
+        setHasInitialized(true);
+      }
+    }, [hasInitialized, onSearch, searchOnMount]);
 
     useEffect(() => {
       if (isControlled) {
@@ -158,6 +167,18 @@ export const SortableTagPicker = forwardRef<
         inputRef.current?.focus();
       },
       [selectedValues, maxItems, onChange, isControlled]
+    );
+
+    const handleFocus = useCallback(
+      (e: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(true);
+        setIsOpen(true);
+        if (onSearch) {
+          onSearch('');
+        }
+        onFocus?.(e);
+      },
+      [onSearch, onFocus]
     );
 
     const handleKeyDown = useCallback(
@@ -245,11 +266,7 @@ export const SortableTagPicker = forwardRef<
                 ref={ref || inputRef}
                 value={searchText}
                 onChange={handleInputChange}
-                onFocus={(e) => {
-                  setIsFocused(true);
-                  setIsOpen(true);
-                  onFocus?.(e);
-                }}
+                onFocus={handleFocus}
                 onBlur={(e) => {
                   setIsFocused(false);
                   onBlur?.(e);

@@ -50,6 +50,7 @@ export interface SortableTagPickerProps {
   ) => ReactNode;
   disabledItemsPosition?: 'top' | 'bottom' | 'none';
   draggableListDirection?: 'horizontal' | 'vertical';
+  searchOnMount?: boolean;
 }
 
 export interface StyledContainerProps {

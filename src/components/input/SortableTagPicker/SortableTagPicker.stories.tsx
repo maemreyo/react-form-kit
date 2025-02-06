@@ -193,6 +193,76 @@ export const AsyncLoading: StoryFn<SortableTagPickerProps> = () => {
   );
 };
 
+// Add after AsyncLoading story
+export const WithSearchOnMount: StoryFn<SortableTagPickerProps> = () => {
+  const [options, setOptions] = useState<Option[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (searchText: string) => {
+    console.log('[WithSearchOnMount] searchText: ', searchText);
+    setLoading(true);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const filtered = sampleOptions.filter((option) =>
+      option.label.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setOptions(filtered);
+    setLoading(false);
+  };
+
+  return (
+    <SortableTagPicker
+      options={options}
+      onSearch={handleSearch}
+      loading={loading}
+      searchOnMount={true}
+      placeholder="Options loaded on mount..."
+    />
+  );
+};
+WithSearchOnMount.parameters = {
+  docs: {
+    description: {
+      story: 'Demonstrates automatic search when component mounts.',
+    },
+  },
+};
+
+export const WithoutSearchOnMount: StoryFn<SortableTagPickerProps> = () => {
+  const [options, setOptions] = useState<Option[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (searchText: string) => {
+    console.log('[WithoutSearchOnMount] searchText: ', searchText);
+
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const filtered = sampleOptions.filter((option) =>
+      option.label.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setOptions(filtered);
+    setLoading(false);
+  };
+
+  return (
+    <SortableTagPicker
+      options={options}
+      onSearch={handleSearch}
+      loading={loading}
+      searchOnMount={false}
+      placeholder="Type to load options..."
+    />
+  );
+};
+WithoutSearchOnMount.parameters = {
+  docs: {
+    description: {
+      story:
+        'Shows default behavior where search is only triggered by user input.',
+    },
+  },
+};
+
 // With validation
 export const WithValidation: StoryFn<SortableTagPickerProps> = () => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
