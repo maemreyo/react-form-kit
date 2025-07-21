@@ -51,6 +51,7 @@ export interface SortableTagPickerProps {
   disabledItemsPosition?: 'top' | 'bottom' | 'none';
   draggableListDirection?: 'horizontal' | 'vertical';
   searchOnMount?: boolean;
+  hideSelectedOptions?: boolean;
 }
 
 export interface StyledContainerProps {

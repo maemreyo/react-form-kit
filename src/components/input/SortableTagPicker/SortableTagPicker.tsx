@@ -71,6 +71,7 @@ export const SortableTagPicker = forwardRef<
       itemRole = 'option',
       draggableListDirection = 'horizontal',
       searchOnMount = false,
+      hideSelectedOptions = true,
     },
     ref
   ) => {
@@ -134,12 +135,25 @@ export const SortableTagPicker = forwardRef<
     );
 
     // Filter options based on search text and already selected values
-    const filteredOptions = options.filter((option) => {
-      if (selectedValues.includes(option.value)) return false;
-      if (!searchText) return true;
-      if (filterOption) return filterOption(searchText, option);
-      return option.label.toLowerCase().includes(searchText.toLowerCase());
-    });
+    const filteredOptions = options
+      .filter((option) => {
+        // Filter out already selected items if hideSelectedOptions is true
+        if (hideSelectedOptions && selectedValues.includes(option.value)) {
+          return false;
+        }
+        
+        // Apply search text filter
+        if (!searchText) return true;
+        if (filterOption) return filterOption(searchText, option);
+        return option.label.toLowerCase().includes(searchText.toLowerCase());
+      })
+      .map((option) => ({
+        ...option,
+        // Mark selected items as disabled if they're shown in dropdown
+        disabled: !hideSelectedOptions && selectedValues.includes(option.value) 
+          ? true 
+          : option.disabled
+      }));
 
     const handleInputChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,6 +168,12 @@ export const SortableTagPicker = forwardRef<
 
     const handleSelectOption = useCallback(
       (option: Option) => {
+        // Prevent selection of disabled options
+        if (option.disabled) return;
+        
+        // Prevent duplicate selections
+        if (selectedValues.includes(option.value)) return;
+        
         if (selectedValues.length >= maxItems) return;
 
         const newValues = [...selectedValues, option.value];
